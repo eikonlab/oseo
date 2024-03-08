@@ -82,6 +82,9 @@ const Targets = [
 //=======================================================================
 // Target Functions
 //=======================================================================
+let activeTargetAzimutal;
+let activeTargetPolar;
+
 //verifier si on est au bon endroit avec la cam
 function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInput) {
     const azimutCamera = controls.getAzimuthalAngle();
@@ -96,14 +99,17 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
     if (azimutCamera >= azimutMin && azimutCamera <= azimutMax &&
         polarCamera >= polarMin && polarCamera <= polarMax) {
         isCibleInView = true;
+        activeTargetAzimutal = azimutTargetInput; // Mettez à jour les coordonnées de la cible active
+        activeTargetPolar = polarTargetInput;
         console.log(labelTargetInput);
         console.log("actif");
     }
 }
 
+
 // Ajustez les angles de la caméra aux coordonnées de la cible
-function adjustCamToTarget(azimutTargetInput, polarTargetInput, labelTargetInput) {
-    setCameraAngles(azimutTargetInput, polarTargetInput);
+function adjustCamToTarget() {
+    setCameraAngles(activeTargetAzimutal, activeTargetPolar);
 }
     
 
@@ -112,7 +118,7 @@ function adjustCamToTarget(azimutTargetInput, polarTargetInput, labelTargetInput
 //=======================================================================
 
 // Définir les angles azimutal et polaire des contrôles d'orbite
-    function setCameraAngles(azimuthalAngle, polarAngle, labelTargetInput) {
+    function setCameraAngles(azimuthalAngle, polarAngle,) {
         controls.setAzimuthalAngle(azimuthalAngle);
         controls.setPolarAngle(polarAngle);
         
