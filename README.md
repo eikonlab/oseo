@@ -34,184 +34,7 @@ Compiler pour la production
 npm run build
 ```
 
-## Utilisation
-
-### HTML
-
-Inclure un fichier _header.html_ depuis un fichier HTML
-
-```html
-<include src="components/header.html"></include>
-```
-
-### SCSS
-
-Inclure un fichier _main.scss_ depuis un fichier HTML
-
-```html
-<link rel="stylesheet" href="scss/main.scss" />
-```
-
-Inclure un fichier _\_base.scss_ depuis un fichier SCSS
-
-```scss
-@import "base";
-```
-
-### JS
-
-Inclure un fichier _main.js_ depuis un fichier HTML
-
-```html
-<script src="js/main.js"></script>
-```
-
-Inclure un fichier _carousel.js_ depuis un fichier JS
-
-```js
-require("./carousel.js");
-```
-
-## Exemples d'utilisation de packages externes
-
-### [AOS](https://michalsnik.github.io/aos)
-
-Installer le paquet avec NPM
-
-```
-npm install aos@next
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import AOS from "aos";
-```
-
-Inclure la CSS depuis un fichier SCSS
-
-```SCSS
-@import "aos/dist/aos.css";
-```
-
-### [Bootstrap](https://getbootstrap.com)
-
-Installer le paquet avec NPM
-
-```
-npm install bootstrap
-```
-
-Inclure la SCSS depuis un fichier SCSS
-
-```SCSS
-@import "bootstrap/scss/bootstrap-grid";
-```
-
-### [Flickity](https://flickity.metafizzy.co)
-
-Installer le paquet avec NPM
-
-```
-npm install flickity
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Flickity from "flickity";
-```
-
-Inclure la CSS depuis un fichier SCSS
-
-```SCSS
-@import "flickity/dist/flickity.css";
-```
-
-### [Font Awesome](https://fontawesome.com/)
-
-Installer le paquet avec NPM
-
-```
-npm install @fortawesome/fontawesome-free
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import "@fortawesome/fontawesome-free/js/all.js";
-```
-
-### [GSAP](https://greensock.com/gsap/)
-
-Installer le paquet avec NPM
-
-```
-npm install gsap
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import gsap from "gsap";
-```
-
-Inclure les éventuels plugins
-
-```js
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
-```
-
-### [Masonry](https://masonry.desandro.com)
-
-Installer le paquet avec NPM
-
-```
-npm install masonry-layout
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Masonry from "masonry-layout";
-```
-
-### [ScrollMagic](https://scrollmagic.io)
-
-Installer le paquet avec NPM
-
-```
-npm install scrollmagic
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import ScrollMagic from "scrollmagic";
-```
-
-### [Swiper](https://swiperjs.com)
-
-Installer le paquet avec NPM
-
-```
-npm install swiper@6
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Swiper, { Navigation, Pagination } from "swiper";
-
-Swiper.use([Navigation, Pagination]);
-```
-
-Inclure la SCSS depuis un fichier SCSS
-
-```SCSS
-@import "swiper/swiper";
-```
+## packages externes
 
 ### [three.js](https://threejs.org)
 
@@ -227,11 +50,31 @@ Inclure le JS depuis un fichier JS
 import * as THREE from "three";
 ```
 
-## Exemple
+### web gl compatibility
 
-Un exemple avec l'installation des packages ci-desssus est disponible sur la branche _examples_
+importation
+```
+import WebGL from 'three/examples/jsm/capabilities/WebGL.js';
+```
+https://threejs.org/docs/#manual/en/introduction/WebGL-compatibility-check
 
+### GLTFLoader
+
+importation
 ```
-git checkout examples
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 ```
-# OseoThree.js
+https://threejs.org/docs/#examples/en/loaders/GLTFLoader
+
+### Three-stdlib
+
+Installer avec npm
+```
+npm install three-stdlib
+```
+```
+import { OrbitControls, ... } from 'three-stdlib'
+```
+https://github.com/pmndrs/three-stdlib
+
+
