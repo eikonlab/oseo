@@ -1,7 +1,6 @@
 //=======================================================================
 // Importations
 //=======================================================================
-
 import * as THREE from 'three';
 import WebGL from 'three/examples/jsm/capabilities/WebGL.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -16,7 +15,6 @@ import { OrbitControls } from 'three-stdlib';
 //=======================================================================
 // Scene
 //=======================================================================
-
 const scene = new THREE.Scene();
 
 //light
@@ -27,7 +25,7 @@ scene.add(ambientLight);
 const camera = new THREE.PerspectiveCamera( 750, window.innerWidth / window.innerHeight, 0.1, 1000 );
 camera.position.z = 70;
 camera.filmGauge = 36;
-camera.position.x = -10;
+camera.position.x = -20;
 
 //render
 const renderer = new THREE.WebGLRenderer();
@@ -46,9 +44,9 @@ loader.load( '../../3d/OSEO_Anamorphose_V4_OOOOOOOSEO.glb', function ( gltf ) {
 //controls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.25;
+controls.dampingFactor = 0.05;
 controls.enableZoom = false;
-// ADD --> disable rotation.y until first 'isCibleInView = true' detected
+// ADD --> disable rotation.y until first 'isCibleInView = true' detected?
 
 
 //cube vert
@@ -59,23 +57,17 @@ const cube = new THREE.Mesh(geometry, material);
 //ADD floating inercie
 
 
+
+
 //=======================================================================
 // Tableau coordonnée
 //=======================================================================
-
-//coordonnées dans l'ordre: azimutal, polaire
-// const Targets = [
-//     [2.06, 1.86],
-//     [3.06, 2.86],    
-//     [0, 1.57],
-// ]
-// ADD -->  etiquette sur chaque sous tableau pour pouvoir ensuite dire: si "sous-tableau 1" est ciblé, ajouter une classe is-active à un élément html
-//          cela servira à afficher les définition de chaque mot trouvé
 const Targets = [
     { azimutal: 2.06, polar: 1.86, label: 'Target 1' },
-    { azimutal: 3.06, polar: 2.86, label: 'Target 2' },
+    { azimutal: -2.22, polar: 1.29, label: 'Target 2' },
     { azimutal: 0, polar: 1.57, label: 'Target 3' },
    ];
+
 
 
 
@@ -90,7 +82,7 @@ let activeTargetIndex;
 function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInput) {
     const azimutCamera = controls.getAzimuthalAngle();
     const polarCamera = controls.getPolarAngle();
-    const marge = 0.03; // marge de la cible
+    const marge = 0.05; // marge de la cible
 
     const azimutMin = azimutTargetInput - marge;
     const azimutMax = azimutTargetInput + marge;
@@ -108,23 +100,16 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
     }
 }
 
+// Définir les angles azimutal et polaire des contrôles d'orbite
+function setCameraAngles(azimuthalAngle, polarAngle,) {
+    controls.setAzimuthalAngle(azimuthalAngle);
+    controls.setPolarAngle(polarAngle);
+}
 
 // Ajustez les angles de la caméra aux coordonnées de la cible
 function adjustCamToTarget() {
     setCameraAngles(activeTargetAzimutal, activeTargetPolar);
 }
-
-
-//=======================================================================
-// Camera Functions
-//=======================================================================
-
-// Définir les angles azimutal et polaire des contrôles d'orbite
-    function setCameraAngles(azimuthalAngle, polarAngle,) {
-        controls.setAzimuthalAngle(azimuthalAngle);
-        controls.setPolarAngle(polarAngle);
-        
-    }
 
 
 
@@ -133,32 +118,12 @@ function adjustCamToTarget() {
 // Score
 //=======================================================================
 
-// let isCibleInView = false; // Variable pour suivre l'état de la cible
-// let hasCibleEntered = false; // Variable pour suivre si la cible a déjà été détectée
-// let score = 0; // Score initial
-// const scoreElement = document.getElementById('actualScore');
 
 
-// // Fonction pour augmenter le score
-// function incrementScore() {
-//     if (!hasCibleEntered) { // Si la cible n'a pas déjà été détectée
-//         score++; // Incrémenter le score
-//         hasCibleEntered = true; 
-//         scoreElement.textContent = score; // Mettre à jour le score dans le HTML
-//         console.log("Score:", score);
-//     }
-// }
 
-// Targets.forEach((target) => {
-//     const labelTargetData = target.label;
-//     console.log(labelTargetData);
-// });
-
-
-//=======================================================================
-// Rendu
-//=======================================================================
-
+//=======================================================================//
+// Rendu=================================================================//
+//=======================================================================//
 function animate() {
     requestAnimationFrame( animate );
 
@@ -170,42 +135,38 @@ function animate() {
 
     //definir par défaut que nous ne somme pas dans une target area
     isCibleInView = false;
-    
+
+    //sorti les const et les chnger en let pour les utiliser dans plusieur function
     let azimutTargetData, polarTargetData, labelTargetData; 
 
     // aller chercher les coordonnées dans le tableau
     Targets.forEach((target) => {
         azimutTargetData = target.azimutal;
         polarTargetData = target.polar;
-        labelTargetData = target.label; // Ajoutez ceci pour récupérer le label de la cible
+        labelTargetData = target.label;
 
-        checkTargetPosition(azimutTargetData, polarTargetData, labelTargetData); // Passez le label comme argument
+        checkTargetPosition(azimutTargetData, polarTargetData, labelTargetData);
     });
 
-        // Mettre à jour les descriptions des cibles
-        Targets.forEach((target, index) => {
-            const descriptionElement = document.querySelector(`.description${index + 1}`); // Sélectionnez l'élément HTML correspondant
-            if (index === activeTargetIndex) {
-                descriptionElement.classList.add('is-active'); // Ajoutez la classe is-active
-            } else {
-                descriptionElement.classList.remove('is-active'); // Retirez la classe is-active des autres éléments
-            }
-        });
-    
-    // Trouver la cible la plus proche
-    // const closestTarget = findClosestTarget();
+    // Mettre à jour les descriptions des cibles
+    Targets.forEach((target, index) => {
+        const descriptionElement = document.querySelector(`.description${index + 1}`); // Sélectionnez l'élément HTML correspondant
+        if (index === activeTargetIndex) {
+            descriptionElement.classList.add('is-active'); // Ajoutez la classe is-active
+        } else {
+            descriptionElement.classList.remove('is-active'); // Retirez la classe is-active des autres éléments
+        }
+    });
 
     //evenement quand on rentre et sort de la zone cible
     if(isCibleInView) {
         scene.add(cube);
-        adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData); // Appelez la fonction pour ajuster les angles de la caméra à la cible
-        // Utilisation de la fonction pour définir les angles de la caméra
-        // setCameraAngles(closestTarget[0], closestTarget[1]);
-        //incrementation du score
-        // incrementScore();
+        adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
     } else {
         scene.remove(cube);
     }
+
+    controls.update();
 
     renderer.render( scene, camera );
 }
@@ -214,7 +175,6 @@ function animate() {
 
 //web gl compatibility check
 if ( WebGL.isWebGLAvailable() ) {
-	// Initiate function or other initializations here
 	animate();
 } else {
 	const warning = WebGL.getWebGLErrorMessage();
