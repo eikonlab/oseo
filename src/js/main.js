@@ -84,6 +84,7 @@ const Targets = [
 //=======================================================================
 let activeTargetAzimutal;
 let activeTargetPolar;
+let activeTargetIndex;
 
 //verifier si on est au bon endroit avec la cam
 function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInput) {
@@ -99,6 +100,7 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
     if (azimutCamera >= azimutMin && azimutCamera <= azimutMax &&
         polarCamera >= polarMin && polarCamera <= polarMax) {
         isCibleInView = true;
+        activeTargetIndex = Targets.findIndex(target => target.label === labelTargetInput); // Trouver l'index de la cible active
         activeTargetAzimutal = azimutTargetInput; // Mettez à jour les coordonnées de la cible active
         activeTargetPolar = polarTargetInput;
         console.log(labelTargetInput);
@@ -111,7 +113,7 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
 function adjustCamToTarget() {
     setCameraAngles(activeTargetAzimutal, activeTargetPolar);
 }
-    
+
 
 //=======================================================================
 // Camera Functions
@@ -179,6 +181,16 @@ function animate() {
 
         checkTargetPosition(azimutTargetData, polarTargetData, labelTargetData); // Passez le label comme argument
     });
+
+        // Mettre à jour les descriptions des cibles
+        Targets.forEach((target, index) => {
+            const descriptionElement = document.querySelector(`.description${index + 1}`); // Sélectionnez l'élément HTML correspondant
+            if (index === activeTargetIndex) {
+                descriptionElement.classList.add('is-active'); // Ajoutez la classe is-active
+            } else {
+                descriptionElement.classList.remove('is-active'); // Retirez la classe is-active des autres éléments
+            }
+        });
     
     // Trouver la cible la plus proche
     // const closestTarget = findClosestTarget();

@@ -42,3 +42,15 @@ video {
 /* ====================================
 // base rules
 // ==================================== */
+
+.description {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+
+  &.is-active {
+    display: block!important;
+  }
+}
+
