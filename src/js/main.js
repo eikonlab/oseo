@@ -30,16 +30,19 @@ camera.position.x = -20;
 //render
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setClearColor( 0xffffff );
+renderer.setClearColor(0x000000, 0); // Fond transparent
 document.body.appendChild( renderer.domElement );
 
 //loader pour importer notre modele 
 const loader = new GLTFLoader();
-loader.load( '../../3d/OSEO_Anamorphose_V4_OOOOOOOSEO.glb', function ( gltf ) {
-    scene.add( gltf.scene );
-}, undefined, function ( error ) {
-    console.error( error );
-} );
+
+loader.load('../../3d/ose_sans_ciel.glb', function (gltf) {
+    model1 = gltf.scene;
+    scene.add(model1);
+}, undefined, function (error) {
+    console.error(error);
+});
+
 
 //controls
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -47,14 +50,57 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.enableZoom = false;
 // ADD --> disable rotation.y until first 'isCibleInView = true' detected?
+//REMOVE --> MOUVEMENT à DEUX DOIGTS
 
 
 //cube vert
-const geometry = new THREE.BoxGeometry(3, 3, 3);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
+// const geometry = new THREE.BoxGeometry(3, 3, 3);
+// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+// const cube = new THREE.Mesh(geometry, material);
 
-//ADD floating inercie
+
+//=======================================================================
+// GRADIENT
+//=======================================================================
+
+// Créer un canvas pour le dégradé sphérique
+const canvas = document.createElement('canvas');
+const context = canvas.getContext('2d');
+canvas.width = 1024;
+canvas.height = 512;
+
+// Créer un gradient radial
+const gradient = context.createRadialGradient(
+    canvas.width / 2, canvas.height / 2, 0,
+    canvas.width / 2, canvas.height / 2, canvas.width / 2
+);
+
+// Ajouter les couleurs au gradient
+gradient.addColorStop(0, '#ff0000'); // Couleur du centre
+gradient.addColorStop(1, '#fff0f0'); // Couleur du bord
+
+// Remplir le canvas avec le gradient
+context.fillStyle = gradient;
+context.fillRect(0, 0, canvas.width, canvas.height);
+
+// Créer une texture à partir du canvas
+const texture = new THREE.CanvasTexture(canvas);
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+texture.repeat.set(4, 2); // Répéter le motif de dégradé
+
+// Utiliser la texture comme matériau de fond
+const backgroundMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
+
+// Créer une sphère pour le fond
+const backgroundGeometry = new THREE.SphereGeometry(800, 32, 16);
+const backgroundSphere = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+backgroundSphere.position.set(0, 0, 0); // Positionner la sphère derrière la caméra
+
+
+// Ajouter la sphère de fond à la scène
+scene.add(backgroundSphere);
+
 
 
 
@@ -64,10 +110,10 @@ const cube = new THREE.Mesh(geometry, material);
 //=======================================================================
 const Targets = [
     { azimutal: 2.06, polar: 1.86, label: 'Target 1' },
-    { azimutal: -2.22, polar: 1.29, label: 'Target 2' },
+    { azimutal: -2.2252, polar: 1.2854, label: 'Target 2' },
     { azimutal: 0, polar: 1.57, label: 'Target 3' },
    ];
-
+//ADD all targets
 
 
 
@@ -97,7 +143,7 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
         activeTargetPolar = polarTargetInput;
         console.log(labelTargetInput);
         console.log("actif");
-    }
+        }
 }
 
 // Définir les angles azimutal et polaire des contrôles d'orbite
@@ -130,8 +176,8 @@ function animate() {
     //printer en html les coordonnée Azimuthal, Polaire et la distance camera
     const positionElement = document.getElementById('position');
     const rotationElement = document.getElementById('rotation');
-    positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(2)}`;
-    rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(2)}, Polar: ${controls.getPolarAngle().toFixed(2)}`;
+    positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+    rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
 
     //definir par défaut que nous ne somme pas dans une target area
     isCibleInView = false;
@@ -160,10 +206,10 @@ function animate() {
 
     //evenement quand on rentre et sort de la zone cible
     if(isCibleInView) {
-        scene.add(cube);
+        // scene.add(cube);
         adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
     } else {
-        scene.remove(cube);
+        // scene.remove(cube);
     }
 
     controls.update();
