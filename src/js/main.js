@@ -1,31 +1,26 @@
-//=======================================================================
-// Importations
-//=======================================================================
+//=======================================================================//
+// Importations==========================================================//
+//=======================================================================//
 import * as THREE from 'three';
 import WebGL from 'three/examples/jsm/capabilities/WebGL.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // Importer OrbitControls depuis three-stdlib pour pouvoir utiliser SetAzimuthalAngle et SetPolarAngle
 import { OrbitControls } from 'three-stdlib';
-// Importer Tween depuis tween.js
-// import { Tween } from '@tweenjs/tween.js'; //potentielle transition de camera possible avec tween
 
 
 
 
-//=======================================================================
-// Scene
-//=======================================================================
+
+//=======================================================================//
+// Scene=================================================================//
+//=======================================================================//
 const scene = new THREE.Scene();
 
-//light
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // couleur, intensité
-scene.add(ambientLight);
-
 //camera
-const camera = new THREE.PerspectiveCamera( 750, window.innerWidth / window.innerHeight, 0.1, 1000 );
-camera.position.z = 70;
-camera.filmGauge = 36;
-camera.position.x = -20;
+const camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.1, 1000 );
+camera.position.z = 68;
+camera.filmGauge = 35;
+camera.position.x = -20
 
 //render
 const renderer = new THREE.WebGLRenderer();
@@ -36,7 +31,7 @@ document.body.appendChild( renderer.domElement );
 //loader pour importer notre modele 
 const loader = new GLTFLoader();
 
-loader.load('../../3d/ose_sans_ciel.glb', function (gltf) {
+loader.load('../../3d/Soupe_au_chou_gabber.glb', function (gltf) {
     model1 = gltf.scene;
     scene.add(model1);
 }, undefined, function (error) {
@@ -46,22 +41,30 @@ loader.load('../../3d/ose_sans_ciel.glb', function (gltf) {
 
 //controls
 const controls = new OrbitControls(camera, renderer.domElement);
+
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.enableZoom = false;
-// ADD --> disable rotation.y until first 'isCibleInView = true' detected?
-//REMOVE --> MOUVEMENT à DEUX DOIGTS
+
+controls.mouseButtons = {
+    LEFT: THREE.MOUSE.ROTATE,
+    MIDDLE: THREE.MOUSE.DOLLY,
+    RIGHT: null
+};
 
 
 //cube vert
-// const geometry = new THREE.BoxGeometry(3, 3, 3);
-// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// const cube = new THREE.Mesh(geometry, material);
+const geometry = new THREE.BoxGeometry(3, 3, 3);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, opacity: 0.5, transparent: true });
+const cube = new THREE.Mesh(geometry, material);
+
+//AFFICHER FRAME RATE / ADD ANTI-ALIASING
+//bloquer le zoom dans la page
 
 
-//=======================================================================
-// GRADIENT
-//=======================================================================
+//=======================================================================//
+// GRADIENT==============================================================//
+//=======================================================================//
 
 // Créer un canvas pour le dégradé sphérique
 const canvas = document.createElement('canvas');
@@ -76,8 +79,8 @@ const gradient = context.createRadialGradient(
 );
 
 // Ajouter les couleurs au gradient
-gradient.addColorStop(0, '#ff0000'); // Couleur du centre
-gradient.addColorStop(1, '#fff0f0'); // Couleur du bord
+gradient.addColorStop(0, '#204A7B'); // Couleur du centre
+gradient.addColorStop(1, '#4F9CF7'); // Couleur du bord
 
 // Remplir le canvas avec le gradient
 context.fillStyle = gradient;
@@ -104,22 +107,70 @@ scene.add(backgroundSphere);
 
 
 
+//=======================================================================//
+// PARTICULES============================================================//
+//=======================================================================//
 
-//=======================================================================
-// Tableau coordonnée
-//=======================================================================
+// Nombre de particules à générer
+const particleCount = 600;
+
+// Géométrie des particules
+const particleGeometry = new THREE.BufferGeometry();
+
+// Tableaux pour stocker les positions des particules
+const positions = new Float32Array(particleCount * 3); // 3 coordonnées (x, y, z) par particule
+
+// Remplissage des tableaux de positions avec des valeurs aléatoires
+for (let i = 0; i < particleCount; i++) {
+    // Calcul de positions aléatoires pour chaque particule
+    const x = Math.random() * 200 - 100; // Valeurs entre -100 et 100
+    const y = Math.random() * 200 - 100;
+    const z = Math.random() * 200 - 100;
+
+    // Attribution des positions aux tableaux
+    positions[i * 3] = x;
+    positions[i * 3 + 10] = y;
+    positions[i * 3 + 20] = z;
+}
+
+// Ajout des positions à la géométrie
+particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+// Matériau des particules
+const particleMaterial = new THREE.PointsMaterial({
+    color: 0xffffff, // Couleur des particules
+    size: 1.5, // Taille des particules
+    sizeAttenuation: true // Atténuation de la taille en fonction de la distance
+});
+
+// Création de l'objet de particules
+const particles = new THREE.Points(particleGeometry, particleMaterial);
+
+// Ajout des particules à la scène
+scene.add(particles);
+
+
+
+
+//=======================================================================//
+// Tableau coordonnée====================================================//
+//=======================================================================//
 const Targets = [
-    { azimutal: 2.06, polar: 1.86, label: 'Target 1' },
-    { azimutal: -2.2252, polar: 1.2854, label: 'Target 2' },
-    { azimutal: 0, polar: 1.57, label: 'Target 3' },
+    { azimutal: -0.0081, polar: 1.5688, label: 'Target 1' },
+    { azimutal: 2.1175, polar: 1.8736, label: 'Target 2' },
+    { azimutal: -2.2252, polar: 1.2854, label: 'Target 3' },
+    { azimutal: -3.1397, polar: 1.5803, label: 'Target 4' },
+    { azimutal: 1.9773, polar: 1.5296, label: 'Target 5' },
+    { azimutal: -2.2380, polar: 1.7683, label: 'Target 6' }
+
    ];
 //ADD all targets
 
 
 
-//=======================================================================
-// Target Functions
-//=======================================================================
+//=======================================================================//
+// Target Functions======================================================//
+//=======================================================================//
 let activeTargetAzimutal;
 let activeTargetPolar;
 let activeTargetIndex;
@@ -128,7 +179,7 @@ let activeTargetIndex;
 function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInput) {
     const azimutCamera = controls.getAzimuthalAngle();
     const polarCamera = controls.getPolarAngle();
-    const marge = 0.05; // marge de la cible
+    const marge = 0.02; // marge de la cible
 
     const azimutMin = azimutTargetInput - marge;
     const azimutMax = azimutTargetInput + marge;
@@ -160,9 +211,9 @@ function adjustCamToTarget() {
 
 
 
-//=======================================================================
-// Score
-//=======================================================================
+//=======================================================================//
+// Score=================================================================//
+//=======================================================================//
 
 
 
