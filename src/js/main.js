@@ -306,10 +306,10 @@ function animate() {
     requestAnimationFrame( animate );
 
     //printer en html les coordonnée Azimuthal, Polaire et la distance camera
-    const positionElement = document.getElementById('position');
-    const rotationElement = document.getElementById('rotation');
-    positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
-    rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
+    // const positionElement = document.getElementById('position');
+    // const rotationElement = document.getElementById('rotation');
+    // positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+    // rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
 
     //definir par défaut que nous ne somme pas dans une target area
     isCibleInView = false;
@@ -360,3 +360,28 @@ if ( WebGL.isWebGLAvailable() ) {
 
 
 
+  // Welcome page
+  function hideWelcomeImage() {
+    const welcomeImage = document.querySelector('.welcome-page img');
+    const startContainer = document.querySelector('.start-container');
+    if (welcomeImage) {
+      welcomeImage.classList.add('is-gone');
+      startContainer.classList.add('is-active');
+    }
+  }
+
+  window.addEventListener('load', () => {
+      setTimeout(() => {
+        hideWelcomeImage();
+      }, 1000);
+  });
+// start the game
+  const startButton = document.querySelector('.start-button');
+  if (startButton) {
+    startButton.addEventListener('click', () => {
+      const welcomePage = document.querySelector('.welcome-page');
+      if (welcomePage) {
+        welcomePage.classList.add('is-gone');
+      }
+    });
+  }

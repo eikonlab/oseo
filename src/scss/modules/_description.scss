@@ -1,6 +1,10 @@
 .description-container {
   width: 15vw;
 
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
   border-radius: 1.25rem;
   border: 2px solid #FFF;
   background: rgba(153, 213, 255, 0.50);
