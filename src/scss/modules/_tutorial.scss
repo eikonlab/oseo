@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: center;
 
+  padding-top: 20px;
+
   opacity: 0;
 
   &.is-gone {
@@ -19,8 +21,9 @@
 }
 
 .tutorial-card{
-  height: 10vh;
-  width: 40%;
+  width: 70%;
+
+  padding-bottom: 10px;
 
   display: flex;
   flex-direction: column;
@@ -31,10 +34,34 @@
 
   border-radius: 1.25rem;
   border: 2px solid #FFF;
-  background: rgba(153, 213, 255, 0.50);
+  background: var(--glass-background);
   backdrop-filter: blur(15px);
 }
 
 .tutorial-card .interactive-element {
   pointer-events: all; /* ou pointer-events: all; selon le cas */
+}
+
+@media (min-width: 768px) {
+  .tutorial-card{
+    width: 40%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .tutorial-card{
+    width: 20%;
+  }
+}
+
+@media (hover: hover) {
+  #bodymovinTouch {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  #bodymovinDesktop {
+    display: none;
+  }
 }

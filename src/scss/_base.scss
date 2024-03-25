@@ -4,8 +4,11 @@
 
 :root {
   --red: #E30613;
+  --red-hover: #ff2433;
+  --red-active: #96010b;
   --white: #fff;
   --black: #000;
+  --glass-background:rgba(77, 114, 141, 0.1);
   --off-transition: 0.2s ease-in;
   --on-transition: 0.2s ease-out;
   --off-transition-long: 0.5s ease-in;
@@ -36,6 +39,7 @@ body {
 
   font-size: 1rem;
   line-height: 1.25;
+  font-family: 'Barlow Condensed';
 
   color: var(--white);
 }
@@ -65,7 +69,7 @@ h1,h2.h3,h4,h5,h6 {
 
   border-radius: 1.25rem;
   border: 2px solid #FFF;
-  background: rgba(153, 213, 255, 0.50);
+  background: var(--glass-background);
   backdrop-filter: blur(15px);
 
   opacity: 0;

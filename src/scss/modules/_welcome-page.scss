@@ -7,6 +7,10 @@
   justify-content: center;
   align-items: center;
 
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+
   z-index: 1000;
 
   background: var(--white);
@@ -14,9 +18,13 @@
 
   &.is-gone {
     opacity: 0;
-    transition: var(--off-transition);
+    transition: var(--off-transition) 0.5s;
 
     pointer-events: none !important;
+
+    * {
+      pointer-events: none !important;
+    }
   }
 }
 
@@ -26,7 +34,7 @@
 
   &.is-gone {
     opacity: 0;
-    pointer-events: none;
+    pointer-events: none !important;
   }
 }
 
@@ -39,7 +47,6 @@
   align-items: center;
   
   opacity: 0;
-  pointer-events: none;
 
   transition: var(--off-transition) 0.2s;
 
@@ -50,10 +57,46 @@
     transition: var(--on-transition) 0.2s;
   }
 }
+.explanation {
+  margin-bottom: 20px;
+}
 
 .start-button {
+  padding: 12px 30px 14px 30px;
+  border-radius: 10px;
   color: var(--white);
   background: var(--red);
 
+  line-height: 25px;
+  text-transform: uppercase;
+
   cursor: pointer;
+
+  transition: var(--off-transition);
+
+  &:active {
+    background: var(--red-active);
+    transform: scale(0.8);
+    transition: transform var(--off-transition);
+  }
+
+  &:hover {
+    background: var(--red-hover);
+    font-size: 26px;
+    transition: var(--off-transition);
+  }
+}
+
+@media (min-width: 768px) {
+  .explanation {
+    font-size: 35px;
+    padding: 0 10%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .explanation {
+    font-size: 40px;
+    padding: 0 10%;
+  }
 }

@@ -198,6 +198,7 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
     const azimutMax = azimutTargetInput + marge;
     const polarMin = polarTargetInput - marge;
     const polarMax = polarTargetInput + marge;
+    const wordFoundAnimationText = document.getElementById('wordFoundAnimationText');
 
     if (azimutCamera >= azimutMin && azimutCamera <= azimutMax &&
         polarCamera >= polarMin && polarCamera <= polarMax) {
@@ -213,13 +214,22 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
                             target1Displayed = true;
                             increaseScore();
                             unblurDescription(activeTargetIndex);
-                        }
+                            document.getElementById('wordFoundAnimationText').textContent = "OSEO Fribourg";
+                            wordFoundAnimationText.classList.add('animation-active');
+                            setTimeout(function() {
+                                wordFoundAnimationText.classList.remove('animation-active');
+                            }, 5000);                  }
                         break;
                     case 'Target 2':
                         if (!target2Displayed) {
                             target2Displayed = true;
                             increaseScore();
                             unblurDescription(activeTargetIndex);
+                            document.getElementById('wordFoundAnimationText').textContent = "Autonomie";
+                            wordFoundAnimationText.classList.add('animation-active');
+                            setTimeout(function() {
+                                wordFoundAnimationText.classList.remove('animation-active');
+                            }, 5000);  
                         }
                         break;
                     case 'Target 3':
@@ -227,6 +237,11 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
                             target3Displayed = true;
                             increaseScore();
                             unblurDescription(activeTargetIndex);
+                            document.getElementById('wordFoundAnimationText').textContent = "Solidarité";
+                            wordFoundAnimationText.classList.add('animation-active');
+                            setTimeout(function() {
+                                wordFoundAnimationText.classList.remove('animation-active');
+                            }, 5000);  
                         }
                         break;
                     case 'Target 4':
@@ -234,6 +249,11 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
                             target4Displayed = true;
                             increaseScore();
                             unblurDescription(activeTargetIndex);
+                            document.getElementById('wordFoundAnimationText').textContent = "Intégration";
+                            wordFoundAnimationText.classList.add('animation-active');
+                            setTimeout(function() {
+                                wordFoundAnimationText.classList.remove('animation-active');
+                            }, 5000);  
                         }
                         break;
                     case 'Target 5':
@@ -241,6 +261,11 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
                             target5Displayed = true;
                             increaseScore();
                             unblurDescription(activeTargetIndex);
+                            document.getElementById('wordFoundAnimationText').textContent = "Engagement";
+                            wordFoundAnimationText.classList.add('animation-active');
+                            setTimeout(function() {
+                                wordFoundAnimationText.classList.remove('animation-active');
+                            }, 5000);  
                         }
                         break;
                     case 'Target 6':
@@ -248,6 +273,11 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
                             target6Displayed = true;
                             increaseScore();
                             unblurDescription(activeTargetIndex);
+                            document.getElementById('wordFoundAnimationText').textContent = "Responsabilité";
+                            wordFoundAnimationText.classList.add('animation-active');
+                            setTimeout(function() {
+                                wordFoundAnimationText.classList.remove('animation-active');
+                            }, 5000);  
                         }
                         break;
                     default:
@@ -265,9 +295,12 @@ function setCameraAngles(azimuthalAngle, polarAngle,) {
     controls.setPolarAngle(polarAngle);
 }
 
+const wordFound = document.querySelector('.word-found-animation')
 // Ajustez les angles de la caméra aux coordonnées de la cible
 function adjustCamToTarget() {
     setCameraAngles(activeTargetAzimutal, activeTargetPolar);
+    wordFound.classList.add('is-active')
+
 }
 
 //unblur les mots trouvé
@@ -341,7 +374,7 @@ function animate() {
         // scene.add(cube);
         adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
     } else {
-        // scene.remove(cube);
+        wordFound.classList.remove('is-active');
     }
 
     controls.update();
@@ -410,3 +443,26 @@ function checkCameraMovement() {
 
 // Ajouter un écouteur d'événements pour suivre les changements de la caméra
 controls.addEventListener('change', checkCameraMovement);
+
+
+
+
+//bodymovin
+
+
+lottie.loadAnimation({
+    container: document.getElementById('bodymovinTouch'), // the dom element that will contain the animation
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '../../bodymovin/doigt4.json' // the path to the animation json
+  });
+
+
+lottie.loadAnimation({
+    container: document.getElementById('bodymovinDesktop'), // the dom element that will contain the animation
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '../../bodymovin/souris.json' // the path to the animation json
+  });
