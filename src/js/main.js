@@ -207,7 +207,7 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
         activeTargetAzimutal = azimutTargetInput; // Mettez à jour les coordonnées de la cible active
         activeTargetPolar = polarTargetInput;
 
-                // Augmenter le score si la cible n'a pas encore été affichée
+                // Augmenter le score si la cible n'a pas encore été affichée + lancer animation et augmenter score
                 switch (labelTargetInput) {
                     case 'Target 1':
                         if (!target1Displayed) {
@@ -392,8 +392,10 @@ if ( WebGL.isWebGLAvailable() ) {
 
 
 
+//====================================================================================
+// Welcome page=======================================================================
+//====================================================================================
 
-// Welcome page
   function hideWelcomeImage() {
     const welcomeImage = document.querySelector('.welcome-page img');
     const startContainer = document.querySelector('.start-container');
@@ -408,7 +410,13 @@ if ( WebGL.isWebGLAvailable() ) {
         hideWelcomeImage();
       }, 1000);
   });
-// start the game
+
+  
+
+
+//====================================================================================
+// start Button=======================================================================
+//====================================================================================
   const startButton = document.querySelector('.start-button');
 
   startButton.addEventListener('click', () => {
@@ -419,7 +427,10 @@ if ( WebGL.isWebGLAvailable() ) {
   });
 
 
-// Fonction pour vérifier si la caméra a bougé de sa position initiale
+//====================================================================================
+// remove tutorial====================================================================
+//====================================================================================
+
 function checkCameraMovement() {
     const initialPosition = new THREE.Vector3(0, 0, 0); // Position initiale de la caméra
     const currentPosition = camera.position.clone(); // Position actuelle de la caméra
@@ -447,8 +458,9 @@ controls.addEventListener('change', checkCameraMovement);
 
 
 
-//bodymovin
-
+//====================================================================================
+// bodymovin animation================================================================
+//====================================================================================
 
 lottie.loadAnimation({
     container: document.getElementById('bodymovinTouch'), // the dom element that will contain the animation
