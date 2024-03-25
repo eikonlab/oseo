@@ -8,6 +8,10 @@
   --black: #000;
   --off-transition: 0.2s ease-in;
   --on-transition: 0.2s ease-out;
+  --off-transition-long: 0.5s ease-in;
+  --on-transition-long: 0.5s ease-out;
+
+
 
 }
 
@@ -54,3 +58,20 @@ h1,h2.h3,h4,h5,h6 {
 // ==================================== */
 
 
+.score-counter {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+
+  border-radius: 1.25rem;
+  border: 2px solid #FFF;
+  background: rgba(153, 213, 255, 0.50);
+  backdrop-filter: blur(15px);
+
+  opacity: 0;
+
+  &.is-active {
+    opacity: 1;
+    transition: var(--on-transition-long) 1s;
+  }
+}

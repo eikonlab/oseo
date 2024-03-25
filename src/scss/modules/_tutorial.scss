@@ -1,0 +1,40 @@
+.tutorial-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+
+  &.is-gone {
+    opacity: 0;
+    transition: var(--off-transition-long) 1s;
+  }
+
+  &.is-active {
+    opacity: 1;
+    transition: var(--on-transition-long) 1s;
+  }
+
+}
+
+.tutorial-card{
+  height: 10vh;
+  width: 40%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+
+  border-radius: 1.25rem;
+  border: 2px solid #FFF;
+  background: rgba(153, 213, 255, 0.50);
+  backdrop-filter: blur(15px);
+}
+
+.tutorial-card .interactive-element {
+  pointer-events: all; /* ou pointer-events: all; selon le cas */
+}

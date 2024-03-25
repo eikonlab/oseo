@@ -2,8 +2,8 @@
   width: 15vw;
 
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 1%;
+  right: 1%;
 
   border-radius: 1.25rem;
   border: 2px solid #FFF;
@@ -11,6 +11,13 @@
   backdrop-filter: blur(15px);
 
   font-size: 24px;
+
+  opacity: 0;
+
+  &.is-active {
+    opacity: 1;
+    transition: var(--on-transition-long) 1s;
+  }
 }
 
 .description {

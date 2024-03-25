@@ -360,7 +360,7 @@ if ( WebGL.isWebGLAvailable() ) {
 
 
 
-  // Welcome page
+// Welcome page
   function hideWelcomeImage() {
     const welcomeImage = document.querySelector('.welcome-page img');
     const startContainer = document.querySelector('.start-container');
@@ -377,11 +377,36 @@ if ( WebGL.isWebGLAvailable() ) {
   });
 // start the game
   const startButton = document.querySelector('.start-button');
-  if (startButton) {
-    startButton.addEventListener('click', () => {
-      const welcomePage = document.querySelector('.welcome-page');
-      if (welcomePage) {
-        welcomePage.classList.add('is-gone');
-      }
-    });
-  }
+
+  startButton.addEventListener('click', () => {
+    const welcomePage = document.querySelector('.welcome-page');
+    const tutorialContainer = document.querySelector('.tutorial-container');
+    welcomePage.classList.add('is-gone');
+    tutorialContainer.classList.add('is-active');
+  });
+
+
+// Fonction pour vérifier si la caméra a bougé de sa position initiale
+function checkCameraMovement() {
+    const initialPosition = new THREE.Vector3(0, 0, 0); // Position initiale de la caméra
+    const currentPosition = camera.position.clone(); // Position actuelle de la caméra
+
+    // Calculer la distance entre la position initiale et actuelle de la caméra
+    const distance = initialPosition.distanceTo(currentPosition);
+
+    // Si la distance est supérieure à un seuil (ce qui indique un mouvement significatif), ajouter la classe .is-gone
+    if (distance > 0.1) {
+        const tutorialContainer = document.querySelector('.tutorial-container');
+        const descriptionContainer = document.querySelector('.description-container');
+        const ScoreCounter = document.querySelector('.score-counter');
+        
+        tutorialContainer.classList.remove('is-active');
+        tutorialContainer.classList.add('is-gone');
+        descriptionContainer.classList.add('is-active');
+        ScoreCounter.classList.add('is-active');
+        
+    }
+}
+
+// Ajouter un écouteur d'événements pour suivre les changements de la caméra
+controls.addEventListener('change', checkCameraMovement);
