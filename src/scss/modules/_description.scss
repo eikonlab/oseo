@@ -1,0 +1,35 @@
+.description-container {
+  width: 15vw;
+
+  border-radius: 1.25rem;
+  border: 2px solid #FFF;
+  background: rgba(153, 213, 255, 0.50);
+  backdrop-filter: blur(15px);
+
+  font-size: 24px;
+}
+
+.description {
+  display: block;
+  filter: blur(5px);
+
+  pointer-events: none !important;
+}
+
+.description h3 {
+  display: none;
+}
+
+.description.is-active {
+  color: var(--red);
+  filter: blur(0px);
+  text-transform: uppercase;
+  // font-size: 1rem; //adjust
+  & h3 {
+    display: block;
+  }
+}
+
+.description.is-found {
+  filter: blur(0px);
+}

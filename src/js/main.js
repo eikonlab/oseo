@@ -1,6 +1,7 @@
 //=======================================================================//
 // Importations==========================================================//
 //=======================================================================//
+
 import * as THREE from 'three';
 import WebGL from 'three/examples/jsm/capabilities/WebGL.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -14,6 +15,7 @@ import { OrbitControls } from 'three-stdlib';
 //=======================================================================//
 // Scene=================================================================//
 //=======================================================================//
+
 const scene = new THREE.Scene();
 
 //camera
@@ -60,6 +62,8 @@ const cube = new THREE.Mesh(geometry, material);
 
 //AFFICHER FRAME RATE / ADD ANTI-ALIASING
 //bloquer le zoom dans la page
+
+
 
 
 //=======================================================================//
@@ -155,6 +159,7 @@ scene.add(particles);
 //=======================================================================//
 // Tableau coordonnée====================================================//
 //=======================================================================//
+
 const Targets = [
     { azimutal: -0.0081, polar: 1.5688, label: 'Target 1' },
     { azimutal: 2.1175, polar: 1.8736, label: 'Target 2' },
@@ -168,12 +173,20 @@ const Targets = [
 
 
 
+
 //=======================================================================//
 // Target Functions======================================================//
 //=======================================================================//
 let activeTargetAzimutal;
 let activeTargetPolar;
 let activeTargetIndex;
+
+let target1Displayed = false;
+let target2Displayed = false;
+let target3Displayed = false;
+let target4Displayed = false;
+let target5Displayed = false;
+let target6Displayed = false;
 
 //verifier si on est au bon endroit avec la cam
 function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInput) {
@@ -192,6 +205,55 @@ function checkTargetPosition(azimutTargetInput, polarTargetInput, labelTargetInp
         activeTargetIndex = Targets.findIndex(target => target.label === labelTargetInput); // Trouver l'index de la cible active
         activeTargetAzimutal = azimutTargetInput; // Mettez à jour les coordonnées de la cible active
         activeTargetPolar = polarTargetInput;
+
+                // Augmenter le score si la cible n'a pas encore été affichée
+                switch (labelTargetInput) {
+                    case 'Target 1':
+                        if (!target1Displayed) {
+                            target1Displayed = true;
+                            increaseScore();
+                            unblurDescription(activeTargetIndex);
+                        }
+                        break;
+                    case 'Target 2':
+                        if (!target2Displayed) {
+                            target2Displayed = true;
+                            increaseScore();
+                            unblurDescription(activeTargetIndex);
+                        }
+                        break;
+                    case 'Target 3':
+                        if (!target3Displayed) {
+                            target3Displayed = true;
+                            increaseScore();
+                            unblurDescription(activeTargetIndex);
+                        }
+                        break;
+                    case 'Target 4':
+                        if (!target4Displayed) {
+                            target4Displayed = true;
+                            increaseScore();
+                            unblurDescription(activeTargetIndex);
+                        }
+                        break;
+                    case 'Target 5':
+                        if (!target5Displayed) {
+                            target5Displayed = true;
+                            increaseScore();
+                            unblurDescription(activeTargetIndex);
+                        }
+                        break;
+                    case 'Target 6':
+                        if (!target6Displayed) {
+                            target6Displayed = true;
+                            increaseScore();
+                            unblurDescription(activeTargetIndex);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
         console.log(labelTargetInput);
         console.log("actif");
         }
@@ -208,6 +270,15 @@ function adjustCamToTarget() {
     setCameraAngles(activeTargetAzimutal, activeTargetPolar);
 }
 
+//unblur les mots trouvé
+function unblurDescription(targetIndex) {
+    const descriptionClass = '.description' + (targetIndex + 1);
+    const foundDescription = document.querySelector(descriptionClass);
+    if (foundDescription) {
+        foundDescription.classList.add('is-found');
+    }
+}
+
 
 
 
@@ -215,12 +286,22 @@ function adjustCamToTarget() {
 // Score=================================================================//
 //=======================================================================//
 
+let activeTargetsCount = 0;
+
+function increaseScore() {
+    // Incrémenter le score et mettre à jour l'affichage
+    activeTargetsCount++;
+    document.querySelector('.dynamic-score').textContent = activeTargetsCount;
+}
+
+//reste du code pour le score en fonction des targets dans function checkTargetPosition (ligne 209)
 
 
 
 //=======================================================================//
 // Rendu=================================================================//
 //=======================================================================//
+
 function animate() {
     requestAnimationFrame( animate );
 
@@ -267,8 +348,6 @@ function animate() {
 
     renderer.render( scene, camera );
 }
-
-
 
 //web gl compatibility check
 if ( WebGL.isWebGLAvailable() ) {
