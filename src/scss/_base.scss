@@ -3,20 +3,18 @@
 // ==================================== */
 
 :root {
-  --red: #E30613;
+  --red: #e30613;
   --red-hover: #ff2433;
   --red-active: #96010b;
   --white: #fff;
   --white-transparent: rgba(255, 255, 255, 0.5);
   --black: #000;
-  --glass-background:rgba(77, 114, 141, 0.1);
+  --glass-background: rgba(77, 114, 141, 0.1);
   --off-transition: 0.2s ease-in;
   --on-transition: 0.2s ease-out;
   --off-transition-long: 0.5s ease-in;
   --on-transition-long: 0.5s ease-out;
-
-
-
+  --nav-padding: 20px;
 }
 
 /* ====================================
@@ -37,10 +35,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow: hidden;
 
   font-size: 1rem;
   line-height: 1.25;
-  font-family: 'Barlow Condensed';
+  font-family: "Barlow Condensed";
 
   color: var(--white);
 }
@@ -55,13 +54,16 @@ video {
   block-size: auto;
   vertical-align: middle;
 }
-h1,h2.h3,h4,h5,h6 {
+h1,
+h2.h3,
+h4,
+h5,
+h6 {
   font-size: inherit;
 }
 /* ====================================
 // base rules
 // ==================================== */
-
 
 .score-counter {
   position: fixed;
@@ -69,7 +71,7 @@ h1,h2.h3,h4,h5,h6 {
   right: 5px;
 
   border-radius: 1.25rem;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
   background: var(--glass-background);
   backdrop-filter: blur(15px);
 
@@ -78,5 +80,38 @@ h1,h2.h3,h4,h5,h6 {
   &.is-active {
     opacity: 1;
     transition: var(--on-transition-long) 1s;
+  }
+}
+
+// Ajouts Mateo
+
+.tutorial-card {
+  text-transform: uppercase;
+}
+
+// .cursor {
+//   position: fixed;
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   transform: translate(-50%, -50%);
+//   cursor: none;
+//   background: red;
+//   z-index: 9999;
+// }
+
+.win-screen {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 999;
+  background: red;
+
+  transition: opacity 1s;
+  opacity: 0%;
+  display: none;
+
+  &.is-active {
+    display: block;
+    opacity: 100%;
   }
 }

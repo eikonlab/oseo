@@ -1,14 +1,15 @@
 .description-container {
   width: 50%;
 
-  padding: 10px;
+  padding: var(--nav-padding);
+  z-index: 100;
 
   position: absolute;
   bottom: 1%;
   right: 1%;
 
   border-radius: 1.25rem;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
   background: var(--glass-background);
   backdrop-filter: blur(15px);
 
@@ -25,32 +26,51 @@
 .description {
   display: block;
   filter: blur(5px);
-
+  margin: 10px 0;
   pointer-events: none !important;
+  transition: 1s;
+
+  & h2 {
+    font-weight: normal;
+  }
+}
+
+.description:hover {
+  transform: scale(1.5, 1.5);
 }
 
 .description h3 {
   display: none;
-  font-weight: 500;
+  font-weight: normal;
   line-height: 90%;
 }
 
 .description.is-active {
-  padding:  10px 0;
-
-  color: var(--red);
-  text-transform: uppercase;
-
+  background: var(--red);
+  padding: 10px var(--nav-padding);
+  margin: 0 calc(-1 * var(--nav-padding));
   filter: blur(0px);
 
+  & h2 {
+    font-weight: bold;
+    text-shadow: none;
+  }
+
   & h3 {
+    margin-top: 3px;
     display: block;
-    text-transform: lowercase;
+    text-shadow: none;
   }
 }
 
 .description.is-found {
   filter: blur(0px);
+  text-shadow: #000 0px 0px 50px;
+  cursor: pointer; //ça s'affiche pas ?
+}
+
+.description.is-found:hover {
+  transform: scale(1.5); //marche pas?
 }
 
 @media (min-width: 768px) {
