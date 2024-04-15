@@ -200,31 +200,32 @@ scene.add(particles);
 //=======================================================================//
 
 const Targets = [
-  { azimutal: 2.1175, polar: 1.8736, label: "Target 2", marge: 0.02 },
-  { azimutal: -0.8247, polar: 2.1446, label: "Target 1", marge: 0.02 },
-  { azimutal: -2.2252, polar: 1.2854, label: "Target 3", marge: 0.02 },
-  { azimutal: -3.1413, polar: 1.5867, label: "Target 4", marge: 0.02 },
-  { azimutal: 1.9773, polar: 1.5296, label: "Target 5", marge: 0.02 },
-  { azimutal: -2.238, polar: 1.7683, label: "Target 6", marge: 0.02 },
+  { azimutal: -1.5348, polar: 0.1223, label: "Target 1", marge: 0.02 }, //insertion (au pôle > difficile, à changer dans le modèle 3D)
+  { azimutal: -3.1413, polar: 1.5867, label: "Target 2", marge: 0.02 }, //intégration
+  { azimutal: -2.2302, polar: 1.2897, label: "Target 3", marge: 0.02 }, //solidarité
+  { azimutal: -0.8084, polar: 2.1514, label: "Target 4", marge: 0.02 }, //dignité
+  { azimutal: 1.6436, polar: 3.1112, label: "Target 5", marge: 0.02 }, //formation
+  { azimutal: -2.2412, polar: 1.7698, label: "Target 6", marge: 0.02 }, //responsabilité
+  { azimutal: 1.9773, polar: 1.5296, label: "Target 7", marge: 0.02 }, //engagement
+  { azimutal: 2.1175, polar: 1.8736, label: "Target 8", marge: 0.02 }, //autonomie
 ];
 //ADD all targets
-
-
-
-
+ 
 //=======================================================================//
 // Target Functions======================================================//
 //=======================================================================//
 let activeTargetAzimutal;
 let activeTargetPolar;
 let activeTargetIndex;
-
+ 
 let target1Displayed = false;
 let target2Displayed = false;
 let target3Displayed = false;
 let target4Displayed = false;
 let target5Displayed = false;
 let target6Displayed = false;
+let target7Displayed = false;
+let target8Displayed = false;
 
 //verifier si on est au bon endroit avec la cam
 function checkTargetPosition(
@@ -236,7 +237,7 @@ function checkTargetPosition(
   const azimutCamera = controls.getAzimuthalAngle();
   const polarCamera = controls.getPolarAngle();
   // const marge = 0.02; // marge de la cible
-
+ 
   const azimutMin = azimutTargetInput - margeTargetInput;
   const azimutMax = azimutTargetInput + margeTargetInput;
   const polarMin = polarTargetInput - margeTargetInput;
@@ -244,7 +245,7 @@ function checkTargetPosition(
   const wordFoundAnimationText = document.getElementById(
     "wordFoundAnimationText"
   );
-
+ 
   if (
     azimutCamera >= azimutMin &&
     azimutCamera <= azimutMax &&
@@ -257,7 +258,7 @@ function checkTargetPosition(
     ); // Trouver l'index de la cible active
     activeTargetAzimutal = azimutTargetInput; // Mettez à jour les coordonnées de la cible active
     activeTargetPolar = polarTargetInput;
-
+ 
     // Augmenter le score si la cible n'a pas encore été affichée + lancer animation et augmenter score
     switch (labelTargetInput) {
       case "Target 1":
@@ -266,13 +267,13 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Dignité";
+            "Insertion";
           wordFoundAnimationText.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
             controls.enabled = true;
-          }, 5000);
+          }, 3000);
         }
         break;
       case "Target 2":
@@ -281,13 +282,13 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Autonomie";
+            "Intégration";
           wordFoundAnimationText.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
             controls.enabled = true;
-          }, 5000);
+          }, 3000);
         }
         break;
       case "Target 3":
@@ -302,7 +303,7 @@ function checkTargetPosition(
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
             controls.enabled = true;
-          }, 5000);
+          }, 3000);
         }
         break;
       case "Target 4":
@@ -311,13 +312,13 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Intégration";
+            "Dignité";
           wordFoundAnimationText.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
             controls.enabled = true;
-          }, 5000);
+          }, 3000);
         }
         break;
       case "Target 5":
@@ -326,13 +327,13 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Engagement";
+            "Formation";
           wordFoundAnimationText.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
             controls.enabled = true;
-          }, 5000);
+          }, 3000);
         }
         break;
       case "Target 6":
@@ -347,13 +348,44 @@ function checkTargetPosition(
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
             controls.enabled = true;
-          }, 5000);
+          }, 3000);
         }
         break;
+      case "Target 7":
+        if (!target7Displayed) {
+          target7Displayed = true;
+          increaseScore();
+          unblurDescription(activeTargetIndex);
+          document.getElementById("wordFoundAnimationText").textContent =
+            "Engagement";
+          wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
+          setTimeout(function () {
+            wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
+          }, 3000);
+        }
+        break;
+      case "Target 8":
+        if (!target8Displayed) {
+          target8Displayed = true;
+          increaseScore();
+          unblurDescription(activeTargetIndex);
+          document.getElementById("wordFoundAnimationText").textContent =
+            "Autonomie";
+          wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
+          setTimeout(function () {
+            wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
+          }, 3000);
+        }
+        break;
+ 
       default:
         break;
     }
-
+ 
     // console.log(labelTargetInput);
     // console.log("actif");
   }
@@ -389,7 +421,7 @@ function unblurDescription(targetIndex) {
 //=======================================================================//
 
 let activeTargetsCount = 0;
-const victoryPoints = 10; //mettre à jour!!
+const victoryPoints = 8; //mettre à jour!!
 
 function displayWinScreen() {
   var winScreen = document.querySelector(".win-screen");
