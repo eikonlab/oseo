@@ -27,22 +27,24 @@
   display: block;
   padding: 0 8px;
   filter: blur(5px);
-  pointer-events: none !important;
+  // pointer-events: none !important;
   transition: 1s;
 
   & h2 {
     font-weight: normal;
+    transition: var(--off-transition);
+
   }
 }
 
-.description:hover {
-  transform: scale(1.5, 1.5);
-}
 
 .description h3 {
   display: none;
   font-weight: normal;
   line-height: 90%;
+
+  transition: var(--off-transition);
+
 }
 
 .description.is-active {
@@ -65,11 +67,36 @@
   filter: blur(0px);
   text-shadow: #000 0px 0px 50px;
   padding: 5px 8px 15px 8px;
-  cursor: pointer; //ça s'affiche pas ?
+  cursor: pointer; 
 }
 
 .description.is-found:hover {
-  transform: scale(1.5); //marche pas?
+  h2, h3 {
+    transition: var(--on-transition);
+    transform: translateX(5px); //marche pas?
+  }
+
+  h3 {
+    display: block;
+    transform-origin: top;
+    animation: strech 1s;
+  }
+}
+@keyframes strech {
+  0% {
+    opacity: 0;
+    transform: scaleY(0) translateX(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) translateX(5px);
+  }
+}
+
+.description.is-active:hover {
+  h3 {
+    animation: none;
+  }
 }
 
 @media (min-width: 768px) {

@@ -200,8 +200,8 @@ scene.add(particles);
 //=======================================================================//
 
 const Targets = [
-  { azimutal: -0.8247, polar: 2.1446, label: "Target 1", marge: 0.02 },
   { azimutal: 2.1175, polar: 1.8736, label: "Target 2", marge: 0.02 },
+  { azimutal: -0.8247, polar: 2.1446, label: "Target 1", marge: 0.02 },
   { azimutal: -2.2252, polar: 1.2854, label: "Target 3", marge: 0.02 },
   { azimutal: -3.1413, polar: 1.5867, label: "Target 4", marge: 0.02 },
   { azimutal: 1.9773, polar: 1.5296, label: "Target 5", marge: 0.02 },
@@ -389,7 +389,7 @@ function unblurDescription(targetIndex) {
 //=======================================================================//
 
 let activeTargetsCount = 0;
-const victoryPoints = 2; //mettre à jour!!
+const victoryPoints = 10; //mettre à jour!!
 
 function displayWinScreen() {
   var winScreen = document.querySelector(".win-screen");
@@ -409,8 +409,6 @@ function increaseScore() {
         var startContainer = document.getElementById('starContainer');
         var timerElement = document.getElementById('timer');
         var newLocation = document.getElementById('newLocation');
-        // Assurez-vous que l'élément existe et qu'il n'est pas déjà dans le nouvel emplacement
-        // Assurez-vous que l'élément existe et qu'il n'est pas déjà dans le nouvel emplacement
         if (timerElement && !newLocation.contains(timerElement)) {
         newLocation.appendChild(timerElement);
         }
