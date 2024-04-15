@@ -16,6 +16,7 @@
   background: var(--white);
   color: var(--black);
 
+
   &.is-gone {
     opacity: 0;
     transition: var(--off-transition) 0.5s;

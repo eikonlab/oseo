@@ -118,16 +118,10 @@ h6 {
   width: 25px;
 }
 .is-gone {
-  opacity:0;
-}
-.star-active {
-  animation: 80s linear down-enter ;
+  opacity:0.3;
+  stroke: var(--red) 1px;
 }
 
-@keyframes down-enter {
-  0% { clip-path: inset(0); }
-  100% { clip-path: inset(0 100% 0 0); }
-}
 
 
 

@@ -12,24 +12,49 @@ import { OrbitControls } from "three-stdlib";
 // Scene=================================================================//
 //=======================================================================//
 
+let initialFov = 36; 
+let camera; 
+
+function initCamera() {
+    camera = new THREE.PerspectiveCamera(
+        initialFov,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
+    camera.filmGauge = 35;
+    camera.position.x = 0;
+}
+
+initCamera();
+
+function adjustCameraPosition() {
+    if (window.innerWidth < 1000) { 
+      camera.position.z = 70
+      initialFov = 60; 
+  } else {
+      camera.position.z = 68
+      initialFov = 36; 
+  }
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.fov = initialFov;
+    camera.updateProjectionMatrix();
+}
+
+adjustCameraPosition();
+
+window.addEventListener('resize', adjustCameraPosition);
+
 const scene = new THREE.Scene();
 
-//camera
-const camera = new THREE.PerspectiveCamera(
-  36,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-camera.position.z = 68;
-camera.filmGauge = 35;
-camera.position.x = 0;
-
-//render
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000, 0); // Fond transparent
+renderer.setClearColor(0x000000, 0); 
 document.body.appendChild(renderer.domElement);
+
+
+
+
 
 //loader pour importer notre modele
 const loader = new GLTFLoader();
@@ -178,7 +203,7 @@ const Targets = [
   { azimutal: -0.8247, polar: 2.1446, label: "Target 1", marge: 0.02 },
   { azimutal: 2.1175, polar: 1.8736, label: "Target 2", marge: 0.02 },
   { azimutal: -2.2252, polar: 1.2854, label: "Target 3", marge: 0.02 },
-  { azimutal: -3.1397, polar: 1.5803, label: "Target 4", marge: 0.02 },
+  { azimutal: -3.1413, polar: 1.5867, label: "Target 4", marge: 0.02 },
   { azimutal: 1.9773, polar: 1.5296, label: "Target 5", marge: 0.02 },
   { azimutal: -2.238, polar: 1.7683, label: "Target 6", marge: 0.02 },
 ];
@@ -377,11 +402,24 @@ function increaseScore() {
   document.querySelector(".dynamic-score").textContent = activeTargetsCount;
 
   if (activeTargetsCount === victoryPoints) {
-    // ajouter timer pour laisser le temps à l'anim du texte
-    displayWinScreen();
-    stopAnimation();
+    setTimeout(function() {
+        displayWinScreen();
+        stopChrono()
+        // Déplacer l'élément
+        var startContainer = document.getElementById('starContainer');
+        var timerElement = document.getElementById('timer');
+        var newLocation = document.getElementById('newLocation');
+        // Assurez-vous que l'élément existe et qu'il n'est pas déjà dans le nouvel emplacement
+        // Assurez-vous que l'élément existe et qu'il n'est pas déjà dans le nouvel emplacement
+        if (timerElement && !newLocation.contains(timerElement)) {
+        newLocation.appendChild(timerElement);
+        }
+        if (startContainer && !newLocation.contains(startContainer)) {
+            newLocation.appendChild(startContainer);
+        }
+      }, 1000);
+    }
   }
-}
 
 //reste du code pour le score en fonction des targets dans function checkTargetPosition (ligne 209)
 
@@ -492,7 +530,7 @@ startButton.addEventListener("click", () => {
     welcomePage.classList.add("is-gone");
     tutorialContainer.classList.add("is-active");
     startChrono();
-    hideStarsOneByOne();
+    
 });
         
 
@@ -541,6 +579,10 @@ controls.addEventListener("change", checkCameraMovement);
 //  TIMER====================================================================
 //====================================================================================
 
+// Variable pour stocker l'identifiant du timer
+let chrono;
+
+// Fonction pour démarrer le chronomètre
 // Fonction pour démarrer le chronomètre
 function startChrono() {
   // minutes et secondes écoulées
@@ -551,7 +593,7 @@ function startChrono() {
   let para = document.getElementById("timer");
 
   // lance l'exécution de la fonction à toutes les secondes
-  let chrono = window.setInterval(tictictic, 1000);
+  chrono = window.setInterval(tictictic, 1000);
 
   // ---------------------------------------------------------
   // Incrément le nombre de secondes et minutes, affiche cette quantité
@@ -564,9 +606,21 @@ function startChrono() {
           secondes = 0;
       }
       para.innerHTML = formatTime(minutes, secondes);
+
+      // Ajouter la classe is-gone aux étoiles lorsque le temps spécifié est atteint
+      if (minutes === 1 && secondes === 30) {
+          document.querySelector('.star3').classList.add('is-gone');
+      }
+      if (minutes === 3 && secondes === 0) {
+          document.querySelector('.star2').classList.add('is-gone');
+      }
+      if (minutes === 4 && secondes === 30) {
+          document.querySelector('.star1').classList.add('is-gone');
+      }
+
       if (minutes === 60 && secondes === 0) {
           // arrête l'exécution lancée par setInterval()
-          window.clearInterval(chrono);
+          stopChrono();
       }
   }
 
@@ -576,6 +630,12 @@ function startChrono() {
   function formatTime(minutes, secondes) {
       return minutes.toString().padStart(2, '0') + ':' + secondes.toString().padStart(2, '0');
   }
+}
+
+
+// Fonction pour arrêter le chronomètre
+function stopChrono() {
+    clearInterval(chrono);
 }
 
 
