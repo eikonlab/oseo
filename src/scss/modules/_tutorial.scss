@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
 
-  padding-top: 20px;
+  padding-top: 33vh;
 
   opacity: 0;
 
@@ -30,6 +30,8 @@
   align-items: center;
   justify-content: center;
 
+  text-transform: uppercase;
+
   z-index: 1000;
 
   border-radius: 1.25rem;
@@ -46,11 +48,15 @@
   .tutorial-card{
     width: 40%;
   }
+
 }
 
 @media (min-width: 1440px) {
   .tutorial-card{
     width: 20%;
+  }
+  .tutorial-container {
+    padding-top: 20px;
   }
 }
 

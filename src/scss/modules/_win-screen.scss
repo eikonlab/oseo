@@ -1,0 +1,14 @@
+.win-screen {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 999;
+  background: red;
+
+  transition: opacity 1s;
+  opacity: 0;
+  pointer-events: none;
+  &.is-active {
+    opacity: .2;
+    pointer-events: all;
+  }
+}

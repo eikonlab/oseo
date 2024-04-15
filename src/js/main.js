@@ -68,8 +68,8 @@ const material = new THREE.MeshBasicMaterial({
 });
 const cube = new THREE.Mesh(geometry, material);
 
-//AFFICHER FRAME RATE / ADD ANTI-ALIASING
-//bloquer le zoom dans la page
+
+
 
 //=======================================================================//
 // GRADIENT==============================================================//
@@ -119,6 +119,9 @@ backgroundSphere.position.set(0, 0, 0); // Positionner la sphère derrière la c
 // Ajouter la sphère de fond à la scène
 scene.add(backgroundSphere);
 
+
+
+
 //=======================================================================//
 // PARTICULES============================================================//
 //=======================================================================//
@@ -154,7 +157,7 @@ particleGeometry.setAttribute(
 // Matériau des particules
 const particleMaterial = new THREE.PointsMaterial({
   color: 0xffffff, // Couleur des particules
-  size: 1.5, // Taille des particules
+  size: 0.8, // Taille des particules
   sizeAttenuation: true, // Atténuation de la taille en fonction de la distance
 });
 
@@ -164,12 +167,15 @@ const particles = new THREE.Points(particleGeometry, particleMaterial);
 // Ajout des particules à la scène
 scene.add(particles);
 
+
+
+
 //=======================================================================//
 // Tableau coordonnée====================================================//
 //=======================================================================//
 
 const Targets = [
-  { azimutal: -0.0081, polar: 1.5688, label: "Target 1", marge: 0.02 },
+  { azimutal: -0.8247, polar: 2.1446, label: "Target 1", marge: 0.02 },
   { azimutal: 2.1175, polar: 1.8736, label: "Target 2", marge: 0.02 },
   { azimutal: -2.2252, polar: 1.2854, label: "Target 3", marge: 0.02 },
   { azimutal: -3.1397, polar: 1.5803, label: "Target 4", marge: 0.02 },
@@ -177,6 +183,9 @@ const Targets = [
   { azimutal: -2.238, polar: 1.7683, label: "Target 6", marge: 0.02 },
 ];
 //ADD all targets
+
+
+
 
 //=======================================================================//
 // Target Functions======================================================//
@@ -232,10 +241,12 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "OSEO Fribourg";
+            "Dignité";
           wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
           }, 5000);
         }
         break;
@@ -247,8 +258,10 @@ function checkTargetPosition(
           document.getElementById("wordFoundAnimationText").textContent =
             "Autonomie";
           wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
           }, 5000);
         }
         break;
@@ -260,8 +273,10 @@ function checkTargetPosition(
           document.getElementById("wordFoundAnimationText").textContent =
             "Solidarité";
           wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
           }, 5000);
         }
         break;
@@ -273,8 +288,10 @@ function checkTargetPosition(
           document.getElementById("wordFoundAnimationText").textContent =
             "Intégration";
           wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
           }, 5000);
         }
         break;
@@ -286,8 +303,10 @@ function checkTargetPosition(
           document.getElementById("wordFoundAnimationText").textContent =
             "Engagement";
           wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
           }, 5000);
         }
         break;
@@ -299,8 +318,10 @@ function checkTargetPosition(
           document.getElementById("wordFoundAnimationText").textContent =
             "Responsabilité";
           wordFoundAnimationText.classList.add("animation-active");
+          controls.enabled = false;
           setTimeout(function () {
             wordFoundAnimationText.classList.remove("animation-active");
+            controls.enabled = true;
           }, 5000);
         }
         break;
@@ -335,12 +356,15 @@ function unblurDescription(targetIndex) {
   }
 }
 
+
+
+
 //=======================================================================//
 // Score=================================================================//
 //=======================================================================//
 
 let activeTargetsCount = 0;
-const victoryPoints = 8;
+const victoryPoints = 2; //mettre à jour!!
 
 function displayWinScreen() {
   var winScreen = document.querySelector(".win-screen");
@@ -355,10 +379,14 @@ function increaseScore() {
   if (activeTargetsCount === victoryPoints) {
     // ajouter timer pour laisser le temps à l'anim du texte
     displayWinScreen();
+    stopAnimation();
   }
 }
 
 //reste du code pour le score en fonction des targets dans function checkTargetPosition (ligne 209)
+
+
+
 
 //=======================================================================//
 // Rendu=================================================================//
@@ -367,84 +395,91 @@ function increaseScore() {
 function animate() {
   requestAnimationFrame(animate);
 
-  // printer en html les coordonnée Azimuthal, Polaire et la distance camera
-  // const positionElement = document.getElementById('position');
-  // const rotationElement = document.getElementById('rotation');
-  // positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
-  // rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
-
+  
   //definir par défaut que nous ne somme pas dans une target area
   isCibleInView = false;
-
+  
   //sorti les const et les chnger en let pour les utiliser dans plusieur function
   let azimutTargetData, polarTargetData, labelTargetData, margeTargetData;
-
+  
   // aller chercher les coordonnées dans le tableau
-  Targets.forEach((target) => {
-    azimutTargetData = target.azimutal;
-    polarTargetData = target.polar;
-    labelTargetData = target.label;
-    margeTargetData = target.marge;
-
-    checkTargetPosition(
-      azimutTargetData,
-      polarTargetData,
-      labelTargetData,
-      margeTargetData
-    );
-  });
-
-  // Mettre à jour les descriptions des cibles
-  Targets.forEach((target, index) => {
-    const descriptionElement = document.querySelector(
-      `.description${index + 1}`
-    ); // Sélectionnez l'élément HTML correspondant
-    if (index === activeTargetIndex) {
-      descriptionElement.classList.add("is-active"); // Ajoutez la classe is-active
-    } else {
-      descriptionElement.classList.remove("is-active"); // Retirez la classe is-active des autres éléments
-    }
-  });
-
-  //evenement quand on rentre et sort de la zone cible
-  if (isCibleInView) {
+    Targets.forEach((target) => {
+        azimutTargetData = target.azimutal;
+        polarTargetData = target.polar;
+        labelTargetData = target.label;
+        margeTargetData = target.marge;
+      
+        checkTargetPosition(
+            azimutTargetData,
+            polarTargetData,
+            labelTargetData,
+            margeTargetData
+        );
+    });
+        
+    // Mettre à jour les descriptions des cibles
+    Targets.forEach((target, index) => {
+        const descriptionElement = document.querySelector(
+            `.description${index + 1}`
+            ); // Sélectionnez l'élément HTML correspondant
+            if (index === activeTargetIndex) {
+                descriptionElement.classList.add("is-active"); // Ajoutez la classe is-active
+            } else {
+                descriptionElement.classList.remove("is-active"); // Retirez la classe is-active des autres éléments
+            }
+    });
+            
+    //evenement quand on rentre et sort de la zone cible
+    if (isCibleInView) {
     // scene.add(cube);
-    adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
-  } else {
-    wordFound.classList.remove("is-active");
-  }
+        adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
+    } else {
+        wordFound.classList.remove("is-active");
+    }
 
-  controls.update();
-
-  renderer.render(scene, camera);
+    // printer en html les coordonnée Azimuthal, Polaire et la distance camera
+    const positionElement = document.getElementById('position');
+    const rotationElement = document.getElementById('rotation');
+    positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+    rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
+            
+    controls.update();
+            
+    renderer.render(scene, camera);
 }
-
+        
 //web gl compatibility check
 if (WebGL.isWebGLAvailable()) {
-  animate();
+    animate();
 } else {
-  const warning = WebGL.getWebGLErrorMessage();
-  document.getElementById("container").appendChild(warning);
+    const warning = WebGL.getWebGLErrorMessage();
+    document.getElementById("container").appendChild(warning);
 }
+        
+
+
 
 //====================================================================================
 // Welcome page=======================================================================
 //====================================================================================
-
+        
 function hideWelcomeImage() {
-  const welcomeImage = document.querySelector(".welcome-page img");
-  const startContainer = document.querySelector(".start-container");
-  if (welcomeImage) {
-    welcomeImage.classList.add("is-gone");
-    startContainer.classList.add("is-active");
-  }
+    const welcomeImage = document.querySelector(".welcome-page img");
+    const startContainer = document.querySelector(".start-container");
+    if (welcomeImage) {
+        welcomeImage.classList.add("is-gone");
+        startContainer.classList.add("is-active");
+    }
 }
 
 window.addEventListener("load", () => {
-  setTimeout(() => {
-    hideWelcomeImage();
-  }, 1000);
+    setTimeout(() => {
+        hideWelcomeImage();
+    }, 1000);
 });
+
+
+
 
 //====================================================================================
 // start Button=======================================================================
@@ -452,93 +487,145 @@ window.addEventListener("load", () => {
 const startButton = document.querySelector(".start-button");
 
 startButton.addEventListener("click", () => {
-  const welcomePage = document.querySelector(".welcome-page");
-  const tutorialContainer = document.querySelector(".tutorial-container");
-  welcomePage.classList.add("is-gone");
-  tutorialContainer.classList.add("is-active");
+    const welcomePage = document.querySelector(".welcome-page");
+    const tutorialContainer = document.querySelector(".tutorial-container");
+    welcomePage.classList.add("is-gone");
+    tutorialContainer.classList.add("is-active");
+    startChrono();
+    hideStarsOneByOne();
 });
+        
+
+
 
 //====================================================================================
 // remove tutorial====================================================================
 //====================================================================================
 
 function checkCameraMovement() {
-  const initialPosition = new THREE.Vector3(0, 0, 0); // Position initiale de la caméra
-  const currentPosition = camera.position.clone(); // Position actuelle de la caméra
+    const initialPosition = new THREE.Vector3(0, 0, 0);
+    const currentPosition = camera.position.clone();
+    const distance = initialPosition.distanceTo(currentPosition);
+    
+    if (distance > 0.1) {
+        const tutorialContainer = document.querySelector(".tutorial-container");
+        const descriptionContainer = document.querySelector(".description-container");
+        const ScoreCounter = document.querySelector(".score-counter");
+        
+        tutorialContainer.classList.remove("is-active");
+        tutorialContainer.classList.add("is-gone");
 
-  // Calculer la distance entre la position initiale et actuelle de la caméra
-  const distance = initialPosition.distanceTo(currentPosition);
+        // Écoute les clics sur le document pendant 7 secondes
+        let timeout = setTimeout(() => {
+            tutorialContainer.classList.remove("is-gone");
+            tutorialContainer.classList.add("is-active");
+        }, 7000);
 
-  // Si la distance est supérieure à un seuil (ce qui indique un mouvement significatif), ajouter la classe .is-gone
-  if (distance > 0.1) {
-    const tutorialContainer = document.querySelector(".tutorial-container");
-    const descriptionContainer = document.querySelector(
-      ".description-container"
-    );
-    const ScoreCounter = document.querySelector(".score-counter");
+        // Si un clic est détecté pendant cette période, annule le timeout
+        document.addEventListener("click", function onClick() {
+            clearTimeout(timeout);
+            document.removeEventListener("click", onClick); // Supprime l'écouteur après utilisation
+        });
 
-    tutorialContainer.classList.remove("is-active");
-    tutorialContainer.classList.add("is-gone");
-    descriptionContainer.classList.add("is-active");
-    ScoreCounter.classList.add("is-active");
+        descriptionContainer.classList.add("is-active");
+        ScoreCounter.classList.add("is-active");
+    }
+}
+
+controls.addEventListener("change", checkCameraMovement);
+
+
+
+
+//====================================================================================
+//  TIMER====================================================================
+//====================================================================================
+
+// Fonction pour démarrer le chronomètre
+function startChrono() {
+  // minutes et secondes écoulées
+  let minutes = 0;
+  let secondes = 0;
+
+  // élément où afficher le décompte
+  let para = document.getElementById("timer");
+
+  // lance l'exécution de la fonction à toutes les secondes
+  let chrono = window.setInterval(tictictic, 1000);
+
+  // ---------------------------------------------------------
+  // Incrément le nombre de secondes et minutes, affiche cette quantité
+  // et arrête automatiquement après 60 minutes.
+  // ---------------------------------------------------------
+  function tictictic() {
+      secondes++;
+      if (secondes === 60) {
+          minutes++;
+          secondes = 0;
+      }
+      para.innerHTML = formatTime(minutes, secondes);
+      if (minutes === 60 && secondes === 0) {
+          // arrête l'exécution lancée par setInterval()
+          window.clearInterval(chrono);
+      }
+  }
+
+  // ---------------------------------------------------------
+  // Formatage du temps en minutes et secondes
+  // ---------------------------------------------------------
+  function formatTime(minutes, secondes) {
+      return minutes.toString().padStart(2, '0') + ':' + secondes.toString().padStart(2, '0');
   }
 }
 
-// Ajouter un écouteur d'événements pour suivre les changements de la caméra
-controls.addEventListener("change", checkCameraMovement);
 
+
+
+//====================================================================================
+// stars================================================================
+//====================================================================================
+
+
+
+
+
+
+
+
+            
+            
 //====================================================================================
 // bodymovin animation================================================================
 //====================================================================================
-
+            
 lottie.loadAnimation({
-  container: document.getElementById("bodymovinTouch"), // the dom element that will contain the animation
-  renderer: "svg",
-  loop: true,
-  autoplay: true,
-  path: "../../bodymovin/doigt4.json", // the path to the animation json
+    container: document.getElementById("bodymovinTouch"), // the dom element that will contain the animation
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+     path: "../../bodymovin/doigt4.json", // the path to the animation json
 });
-
+            
 lottie.loadAnimation({
-  container: document.getElementById("bodymovinDesktop"), // the dom element that will contain the animation
-  renderer: "svg",
-  loop: true,
-  autoplay: true,
-  path: "../../bodymovin/souris.json", // the path to the animation json
+    container: document.getElementById("bodymovinDesktop"), // the dom element that will contain the animation
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+    path: "../../bodymovin/souris.json", // the path to the animation json
 });
+            
 
-// CUSTOM CURSOR MATEO
-
-// var cursor = document.querySelector(".cursor");
-// //console.log(cursor)
-
-// var moveCursor = function (event) {
-//   cursor.style.left = event.clientX + "px";
-//   cursor.style.top = event.clientY + "px";
-// };
-// //console.log(moveCursor)
-
-// var hideCursor = function () {
-//   cursor.style.display = "none";
-// };
-
-// var showCursor = function () {
-//   cursor.style.display = "block";
-// };
-
-// document.addEventListener("mousemove", moveCursor);
-// document.addEventListener("mouseleave", hideCursor);
-// document.addEventListener("mouseenter", showCursor);
+                        
 
 // NAV VALEURS
 
 // créer une liste d'arrays avec chaque lien et y ajouter
 // un paramètre pour la coordoonée de cam correspondante
 
-const link = document.querySelector(".description.is-found");
+// const link = document.querySelector(".description.is-found");
 
-link.addEventListener("click", teleportTo);
+// link.addEventListener("click", teleportTo);
 
-var teleportTo = function () {
-  console.log("move to...");
-};
+// var teleportTo = function () {
+//   console.log("move to...");
+// };

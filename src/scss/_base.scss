@@ -70,6 +70,13 @@ h6 {
   top: 5px;
   right: 5px;
 
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
   border-radius: 1.25rem;
   border: 2px solid #fff;
   background: var(--glass-background);
@@ -77,41 +84,72 @@ h6 {
 
   opacity: 0;
 
+  font-size: 15px;
+
   &.is-active {
     opacity: 1;
     transition: var(--on-transition-long) 1s;
   }
 }
 
-// Ajouts Mateo
-
-.tutorial-card {
-  text-transform: uppercase;
+.text-counter {
+  color: var(--red);
+  width: 15%;
 }
 
-// .cursor {
-//   position: fixed;
-//   width: 40px;
-//   height: 40px;
-//   border-radius: 50%;
-//   transform: translate(-50%, -50%);
-//   cursor: none;
-//   background: red;
-//   z-index: 9999;
-// }
+.separator {
+  display: block;
+  width: 2px;
+  height: 60px;
+  background-color: var(--white); /* Couleur du bloc */
+}
 
-.win-screen {
-  position: fixed;
-  inset: 0 0 0 0;
-  z-index: 999;
-  background: red;
+.star-container {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
-  transition: opacity 1s;
-  opacity: 0%;
-  display: none;
+.star {
+  width: 25px;
+}
+.is-gone {
+  opacity:0;
+}
+.star-active {
+  animation: 80s linear down-enter ;
+}
 
-  &.is-active {
-    display: block;
-    opacity: 100%;
+@keyframes down-enter {
+  0% { clip-path: inset(0); }
+  100% { clip-path: inset(0 100% 0 0); }
+}
+
+
+
+@media (min-width: 768px) {
+  .score-counter {
+    width: 25%;
+    font-size: 18px;
   }
+}
+
+@media (min-width: 1440px) {
+  .score-counter {
+    width: 15%;
+    font-size: 20px;
+  }
+}
+
+
+.description-container,
+.word-found-animation {
+  -moz-user-select: none; /* Firefox */
+  -webkit-user-select: none; /* Chrome, Safari, Opéra depuis la version 15 */
+  -ms-user-select: none; /* Internet explorer depuis la version 10 et Edge */
+  user-select: none; /* Propriété standard */
 }
