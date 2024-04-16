@@ -437,7 +437,7 @@ function unblurDescription(targetIndex) {
 //=======================================================================//
 
 let activeTargetsCount = 0;
-const victoryPoints = 8; //mettre à jour!!
+const victoryPoints = 1; //mettre à jour!!
 
 function displayWinScreen() {
   var winScreen = document.querySelector(".win-screen");
@@ -522,10 +522,10 @@ function animate() {
     }
 
     // printer en html les coordonnée Azimuthal, Polaire et la distance camera
-    const positionElement = document.getElementById('position');
-    const rotationElement = document.getElementById('rotation');
-    positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
-    rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
+    // const positionElement = document.getElementById('position');
+    // const rotationElement = document.getElementById('rotation');
+    // positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+    // rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
             
     controls.update();
             
@@ -605,7 +605,7 @@ function checkCameraMovement() {
         let timeout = setTimeout(() => {
             tutorialContainer.classList.remove("is-gone");
             tutorialContainer.classList.add("is-active");
-        }, 7000);
+        }, 14000);
 
         // Si un clic est détecté pendant cette période, annule le timeout
         document.addEventListener("click", function onClick() {

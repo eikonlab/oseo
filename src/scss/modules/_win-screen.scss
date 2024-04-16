@@ -2,15 +2,43 @@
   position: fixed;
   inset: 0 0 0 0;
   z-index: 9999;
-  background: var(--white);
-
-  color: var(--black);
-
+  background: var(--blue);
+  color: var(--white);
+  font-size: 5vh;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   transition: opacity 1s;
   opacity: 0;
   pointer-events: none;
+ 
   &.is-active {
-    opacity: .8;
+    opacity: 1;
     pointer-events: all;
   }
+ 
+  p {
+    margin-bottom: 30px;
+    width: 50%;
+    font-size: 40px;
+  }
 }
+ 
+.win-message {
+  color: var(--red);
+  font-size: 15vw;
+  font-weight: 700;
+}
+ 
+#newLocation .timer {
+  color: var(--red);
+  font-size: 4vh;
+}
+ 
+#newLocation .star-container {
+  margin: 30px auto;
+}
+ 

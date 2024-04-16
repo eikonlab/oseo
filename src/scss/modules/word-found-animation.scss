@@ -1,7 +1,7 @@
 .word-found-animation {
   color: var(--white);
   -webkit-text-stroke: 1px var(--white);
-  font-size: 30px;
+  font-size: 70px;
   font-weight: bold;
 
   position: absolute;
@@ -23,11 +23,32 @@
 
 }
 
+.blurred-background {
+  border: solid red 3px;
+  height: 100%;
+  width: 100%;
+  animation: blurback 3s infinite ;
+}
+
+@keyframes blurback {
+  0% {
+    backdrop-filter: (0px);
+  }
+  50% {
+    backdrop-filter: (5px);
+  }
+  100% {
+    backdrop-filter: (0px);
+  }
+  
+}
+
 #wordFoundAnimationText {
   opacity: 0;
 }
 
 #wordFoundAnimationText.animation-active {
+  inset: 0;
   animation: TextAnimation 3s;
   animation-delay: 0.5s;
 }
@@ -36,12 +57,9 @@
   0% {
     opacity: 0;
     transform: scale(1);
-    backdrop-filter: blur(0px);
   }
   10% {
     opacity: 1;
-    backdrop-filter: blur(5px);
-
   }
   90% {
     opacity: 1;
@@ -49,7 +67,6 @@
   }
   100% {
     opacity: 0;
-    backdrop-filter: blur(0px);
   }
 }
 

@@ -1,22 +1,17 @@
 .description-container {
-  width: 50%;
+  width: 35%;
 
   z-index: 100;
 
   position: absolute;
-  bottom: 1%;
-  right: 1%;
-
-  border-radius: 1.25rem;
-  border: 2px solid #fff;
-  background: var(--glass-background);
-  backdrop-filter: blur(15px);
-
-  font-size: 15px;
-
+  top:20px;
+  right: 10px;
+  
+  font-size: 13px;
+  
   opacity: 0;
   overflow: hidden;
-
+  
   &.is-active {
     opacity: 1;
     transition: var(--on-transition-long) 1s;
@@ -25,32 +20,43 @@
 
 .description {
   display: block;
-  padding: 0 8px;
-  filter: blur(5px);
-  // pointer-events: none !important;
+  border-radius: 20px;
+  padding: 5px 12px;
+  margin-bottom: 5px;
+  background: var(--glass-background);
+  backdrop-filter: blur(15px);
   transition: 1s;
 
-  & h2 {
+  h2,h3 {
+    filter: blur(2px);
+  }
+
+  h2 {
     font-weight: normal;
     transition: var(--off-transition);
-
+    text-transform: uppercase;
+  }
+  h3 {
+    display: none;
+    font-weight: normal;
+    line-height: 90%;
+  
+    transition: var(--off-transition);
+  
   }
 }
-
-
-.description h3 {
-  display: none;
-  font-weight: normal;
-  line-height: 90%;
-
-  transition: var(--off-transition);
-
+.title {
+  text-align: right;
+  text-transform: uppercase;
+  margin: 0 5px 3px 0;
+  font-size: 15px;
 }
+
 
 .description.is-active {
   background: var(--red);
   filter: blur(0px);
-  padding: 5px 8px;
+  padding: 8px 12px;
   & h2 {
     font-weight: bold;
     text-shadow: none;
@@ -64,57 +70,45 @@
 }
 
 .description.is-found {
-  filter: blur(0px);
-  text-shadow: #000 0px 0px 50px;
-  padding: 5px 8px 15px 8px;
-  cursor: pointer; 
-}
-
-.description.is-found:hover {
-  h2, h3 {
-    transition: var(--on-transition);
-    transform: translateX(5px); //marche pas?
-  }
-
-  h3 {
-    display: block;
-    transform-origin: top;
-    animation: strech 1s;
-  }
-}
-@keyframes strech {
-  0% {
-    opacity: 0;
-    transform: scaleY(0) translateX(5px);
-  }
-  100% {
-    opacity: 1;
-    transform: scaleY(1) translateX(5px);
+  h2,h3 {
+    filter: blur(0px);
   }
 }
 
-.description.is-active:hover {
-  h3 {
-    animation: none;
-  }
-}
 
 @media (min-width: 768px) {
   .description-container {
     width: 25%;
-    font-size: 18px;
+    font-size: 14px;
+    right: 20px;
   }
   .description h3 {
     line-height: 90%;
+    display: block;
+    padding-bottom: 3px;
+    font-size: 13px;
+  }
+  .description {
+    h2,h3 {
+      filter: blur(3px);
+    }
+  }
+  .title {
+    font-size: 20px;
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1200px) {
   .description-container {
     width: 15%;
     font-size: 20px;
   }
   .description h3 {
     line-height: 90%;
+  }
+  .description {
+    h2,h3 {
+      filter: blur(3.5px);
+    }
   }
 }

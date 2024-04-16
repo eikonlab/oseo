@@ -4,9 +4,12 @@
   align-items: center;
   justify-content: center;
 
-  padding-top: 40vh;
+  position: absolute;
+  inset: 0;
 
   opacity: 0;
+
+  pointer-events: none!important;
 
   &.is-gone {
     opacity: 0;
@@ -36,9 +39,8 @@
   z-index: 1000;
 
   border-radius: 1.25rem;
-  // border: 2px solid #FFF;
   background: var(--glass-background);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(35px);
 }
 
 .tutorial-card .interactive-element {
