@@ -1,21 +1,20 @@
 .word-found-animation {
+  position: absolute;
+  inset: 0;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
   color: var(--white);
   -webkit-text-stroke: 1px var(--white);
   font-size: 70px;
   font-weight: bold;
 
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
   pointer-events: none;
 
   transition: 0.5s;
-
 
   &.is-active {
     box-shadow: 0px 4px 120.8px 0px #fff inset, 2px 7px 250px 0px #fff inset;
@@ -23,34 +22,13 @@
 
 }
 
-.blurred-background {
-  border: solid red 3px;
-  height: 100%;
-  width: 100%;
-  animation: blurback 3s infinite ;
-}
-
-@keyframes blurback {
-  0% {
-    backdrop-filter: (0px);
-  }
-  50% {
-    backdrop-filter: (5px);
-  }
-  100% {
-    backdrop-filter: (0px);
-  }
-  
-}
-
 #wordFoundAnimationText {
   opacity: 0;
-}
-
-#wordFoundAnimationText.animation-active {
-  inset: 0;
-  animation: TextAnimation 3s;
-  animation-delay: 0.5s;
+  &.animation-active {
+    inset: 0;
+    animation: TextAnimation 3s;
+    animation-delay: 0.5s;
+  }
 }
 
 @keyframes TextAnimation {
@@ -70,6 +48,12 @@
   }
 }
 
+
+
+
+//=======================================================================//
+// media queries=========================================================//
+//=======================================================================//
 @media (min-width: 768px) {
   @keyframes TextAnimation {
     0% {

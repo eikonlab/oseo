@@ -1,19 +1,9 @@
-
-// .color-overlay {
-//   position: fixed;
-//   height: 200px;
-//   width: 200px;
-//   top: 50%;
-//   left: 50%;
-  
-//   background: #e30613;
-//   z-index: 10000;
-// }
 canvas {
-  filter: saturate(100%) contrast(110%);
   position: fixed;
   inset: 0;
   z-index: -1;
-
+  
   pointer-events: all;
+  
+  filter: saturate(100%) contrast(110%);
 }

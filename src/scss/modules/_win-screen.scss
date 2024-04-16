@@ -1,28 +1,36 @@
 .win-screen {
   position: fixed;
   inset: 0 0 0 0;
+
   z-index: 9999;
+
   background: var(--blue);
-  color: var(--white);
-  font-size: 5vh;
-  font-weight: 500;
-  text-align: center;
+
   display: flex;
+  text-align: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: opacity 1s;
+
+  color: var(--white);
+  font-size: 5vh;
+  font-weight: 500;
+
   opacity: 0;
+  transition: opacity 1s;
+
   pointer-events: none;
  
   &.is-active {
     opacity: 1;
+
     pointer-events: all;
   }
  
   p {
     margin-bottom: 30px;
     width: 50%;
+    
     font-size: 40px;
   }
 }
