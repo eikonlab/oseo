@@ -73,3 +73,12 @@ h6 {
   -ms-user-select: none; /* Internet explorer depuis la version 10 et Edge */
   user-select: none; /* Propriété standard */
 }
+
+body {
+  opacity: 1;
+  transition: opacity 0.3s var(--off-transition);
+
+  &.resizing {
+    opacity: 0;
+  }
+}

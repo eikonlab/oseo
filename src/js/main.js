@@ -28,6 +28,22 @@ function initCamera() {
 
 initCamera();
 
+function debounce(func){
+  var timer;
+  return function(event){
+    if(timer) clearTimeout(timer);
+    document.body.classList.add("resizing");
+    timer = setTimeout(func,100,event);
+  };
+}
+
+window.addEventListener("resize",debounce(function(e){
+  document.body.classList.remove("resizing");
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}));
+
 function adjustCameraPosition() {
     if (window.innerWidth < 1000) { 
       camera.position.z = 70
@@ -557,8 +573,12 @@ const startButton = document.querySelector(".start-button");
 startButton.addEventListener("click", () => {
     const welcomePage = document.querySelector(".welcome-page");
     const tutorialContainer = document.querySelector(".tutorial-container");
+    const descriptionContainer = document.querySelector(".description-container");
+    const ScoreCounter = document.querySelector(".score-counter");
     welcomePage.classList.add("is-gone");
     tutorialContainer.classList.add("is-active");
+    descriptionContainer.classList.add("is-active");
+    ScoreCounter.classList.add("is-active");
     startChrono();
     
 });
@@ -577,8 +597,6 @@ function checkCameraMovement() {
     
     if (distance > 0.1) {
         const tutorialContainer = document.querySelector(".tutorial-container");
-        const descriptionContainer = document.querySelector(".description-container");
-        const ScoreCounter = document.querySelector(".score-counter");
         
         tutorialContainer.classList.remove("is-active");
         tutorialContainer.classList.add("is-gone");
@@ -595,8 +613,6 @@ function checkCameraMovement() {
             document.removeEventListener("click", onClick); // Supprime l'écouteur après utilisation
         });
 
-        descriptionContainer.classList.add("is-active");
-        ScoreCounter.classList.add("is-active");
     }
 }
 

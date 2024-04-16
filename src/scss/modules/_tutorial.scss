@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
 
-  padding-top: 20vh;
+  padding-top: 40vh;
 
   opacity: 0;
 
@@ -16,6 +16,7 @@
   &.is-active {
     opacity: 1;
     transition: var(--on-transition-long) 1s;
+    transition-delay: 5s;
   }
 
 }
@@ -35,7 +36,7 @@
   z-index: 1000;
 
   border-radius: 1.25rem;
-  border: 2px solid #FFF;
+  // border: 2px solid #FFF;
   background: var(--glass-background);
   backdrop-filter: blur(15px);
 }
