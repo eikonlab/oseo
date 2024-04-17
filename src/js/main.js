@@ -10,7 +10,6 @@ import { OrbitControls } from "three-stdlib";
 
 
 
-
 //=======================================================================//
 // Scene=================================================================//
 //=======================================================================//
@@ -253,6 +252,78 @@ scene.add(particles);
 
 
 
+//=======================================================================//
+// AUDIO MANAGER==========================================================//
+//=======================================================================//
+
+class AudioManager {
+  constructor() {
+    this.sounds = {};
+    this.currentSoundIndex = 1; // Indice du premier son à jouer
+  }
+
+  loadSound(key, url) {
+      const audio = new Audio(url);
+      this.sounds[key] = audio;
+  }
+
+  playSound(key) {
+      const audio = this.sounds[key];
+      if (audio) {
+          audio.play();
+      }
+  }
+
+  loadSounds(sounds) {
+    sounds.forEach((sound, index) => {
+      const audio = new Audio(sound);
+      this.sounds[index + 1] = audio; // Utiliser l'indice comme clé
+    });
+  }
+
+  stopSound(key) {
+      const audio = this.sounds[key];
+      if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+      }
+  }
+
+  playNextSound() {
+    const audio = this.sounds[this.currentSoundIndex];
+    if (audio) {
+      audio.play();
+      this.currentSoundIndex = (this.currentSoundIndex % 8) + 1; // Incrémenter et revenir à 1 si nécessaire
+    }
+  }
+}
+
+// Créer une instance du gestionnaire audio
+const audioManager = new AudioManager();
+
+// Charger les sons
+audioManager.loadSound('click-button', '../../sounds/click-button.mp3');
+audioManager.loadSound('win', '../../sounds/win.mp3');
+// audioManager.loadSound('woosh', '../../sounds/woosh.mp3');
+// audioManager.loadSound('doing', '../../sounds/doing.mp3');
+// audioManager.loadSound('jingle', '../../sounds/jingle.wav');
+
+
+
+audioManager.loadSounds([
+  '../../sounds/son1.mp3',
+  '../../sounds/son2.mp3',
+  '../../sounds/son3.mp3',
+  '../../sounds/son4.mp3',
+  '../../sounds/son5.mp3',
+  '../../sounds/son6.mp3',
+  '../../sounds/son7.mp3',
+  '../../sounds/son8.mp3'
+]);
+
+
+
+
 
 //=======================================================================//
 // Tableau coordonnée====================================================//
@@ -314,6 +385,7 @@ function checkTargetPosition(
     polarCamera >= polarMin &&
     polarCamera <= polarMax
   ) {
+
     isCibleInView = true;
     activeTargetIndex = Targets.findIndex(
       (target) => target.label === labelTargetInput
@@ -490,11 +562,13 @@ function increaseScore() {
   // Incrémenter le score et mettre à jour l'affichage
   activeTargetsCount++;
   document.querySelector(".dynamic-score").textContent = activeTargetsCount;
+  playSoundForScore(activeTargetsCount);
 
   if (activeTargetsCount === victoryPoints) {
     setTimeout(function() {
         displayWinScreen();
         stopChrono()
+        audioManager.playSound('win'); 
         // Déplacer les element à la victory page
         var startContainer = document.getElementById('starContainer');
         var timerElement = document.getElementById('timer');
@@ -509,8 +583,12 @@ function increaseScore() {
     }
   }
 
-//reste du code pour le score en fonction des targets dans function checkTargetPosition (~ligne 294)
-
+// Fonction pour jouer le son approprié en fonction du score
+function playSoundForScore(score) {
+  if (score >= 1 && score <= 8) {
+    audioManager.playSound(score); // Jouer le son correspondant au score
+  }
+}
 
 
 
@@ -564,10 +642,10 @@ function animate() {
     }
 
     // printer en html les coordonnée Azimuthal, Polaire et la distance camera
-     const positionElement = document.getElementById('position');
-     const rotationElement = document.getElementById('rotation');
-     positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
-     rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
+     //const positionElement = document.getElementById('position');
+     //const rotationElement = document.getElementById('rotation');
+     //positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+     //rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
             
     controls.update();
             
@@ -625,6 +703,10 @@ startButton.addEventListener("click", () => {
     descriptionContainer.classList.add("is-active");
     ScoreCounter.classList.add("is-active");
     startChrono();
+    audioManager.playSound('click-button'); 
+
+    // audioManager.playSound('doing');//blague
+
     
 });
         
@@ -740,6 +822,10 @@ const replayButton = document.querySelector('.replay-button')
 
 replayButton.addEventListener("click", () => { 
   location.reload();
+  audioManager.playSound('click-button'); 
+
+  // audioManager.playSound('doing'); //blague
+
 })
 
 
@@ -767,3 +853,23 @@ lottie.loadAnimation({
             
 
                         
+
+
+// Jouer un son
+// audioManager.playSound('explosion');
+
+let isDragging = false;
+
+// Écouter l'événement de début de clic
+renderer.domElement.addEventListener('mousedown', function(event) {
+  isDragging = true;
+});
+
+// Écouter l'événement de fin de clic
+renderer.domElement.addEventListener('mouseup', function(event) {
+  if (isDragging) {
+    audioManager.playSound('woosh');
+    isDragging = false;
+  }
+});
+
