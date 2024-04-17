@@ -11,15 +11,25 @@
 
   pointer-events: none!important;
 
+  .tutorial-card {
+    opacity: 0;
+  }
+
   &.is-gone {
     opacity: 0;
     transition: var(--off-transition-long) 1s;
+    .tutorial-card {
+      opacity: 0;
+    }
   }
 
   &.is-active {
     opacity: 1;
     transition: var(--on-transition-long) 1s;
     transition-delay: 5s;
+    .tutorial-card {
+      opacity: 1;
+    }
   }
 }
 
@@ -35,10 +45,10 @@
 
   text-transform: uppercase;
 
-  z-index: 1000;
+  z-index: 500;
 
   border-radius: 1.25rem;
-  background: rgba(106, 195, 247, 0.266);
+  background: rgba(133, 200, 239, 0.507);
   backdrop-filter: blur(35px);
 }
 

@@ -2,11 +2,11 @@
   width: 35%;
 
   position: absolute;
-  top:20px;
+  top:3px;
   right: 10px;
   z-index: 100;
 
-  font-size: 13px;
+  font-size: 10px;
   
   opacity: 0;
   overflow: hidden;
@@ -18,10 +18,12 @@
 }
 
 .title {
+  margin: 0 5px 3px 0;
+
   text-align: right;
   text-transform: uppercase;
-  margin: 0 5px 3px 0;
   font-size: 15px;
+  color: var(--black);
 }
 
 .description {
@@ -93,6 +95,7 @@
   .description-container {
     width: 25%;
     right: 20px;
+    top: 20px;
 
     font-size: 14px;
   }
@@ -131,5 +134,26 @@
     h2,h3 {
       filter: blur(3.5px);
     }
+  }
+}
+
+@media (min-width:2200px) {
+  .description-container {
+    width: 10%;
+
+    font-size: 25px;
+  }
+
+  .description {
+    h2,h3 {
+      filter: blur(4.5px);
+    }
+    h3 {
+      font-size: 25px;
+    }
+  }
+
+  .title {
+    font-size: 30px;
   }
 }

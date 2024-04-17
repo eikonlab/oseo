@@ -8,6 +8,9 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // Importer OrbitControls depuis three-stdlib pour pouvoir utiliser SetAzimuthalAngle et SetPolarAngle
 import { OrbitControls } from "three-stdlib";
 
+
+
+
 //=======================================================================//
 // Scene=================================================================//
 //=======================================================================//
@@ -28,6 +31,7 @@ function initCamera() {
 
 initCamera();
 
+//resize canvas 
 function debounce(func){
   var timer;
   return function(event){
@@ -44,22 +48,69 @@ window.addEventListener("resize",debounce(function(e){
   renderer.setSize(window.innerWidth, window.innerHeight);
 }));
 
+//change camera after delay on mobile
+let timeoutId;
+
 function adjustCameraPosition() {
-    if (window.innerWidth < 1000) { 
-      camera.position.z = 70
-      initialFov = 60; 
-  } else {
-      camera.position.z = 68
-      initialFov = 36; 
-  }
+
+   if (window.innerWidth < 500) {
+    camera.position.z = 70;
+    initialFov = 60;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.fov = initialFov;
     camera.updateProjectionMatrix();
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      camera.position.z = 68;
+      initialFov = 36;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.fov = initialFov;
+      camera.updateProjectionMatrix();
+      timeoutId = null; 
+    }, 11000);
+  } 
+  else {
+    camera.position.z = 68;
+    initialFov = 36;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.fov = initialFov;
+    camera.updateProjectionMatrix();
+    
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null; 
+    }
+  }
 }
 
 adjustCameraPosition();
 
-window.addEventListener('resize', adjustCameraPosition);
+window.addEventListener('resize', adjustCameraPosition); 
+
+
+//camera perspective for ipad
+function adjustCameraPositionIpad() {
+  if (window.innerWidth < 1000) { 
+    camera.position.z = 70
+    initialFov = 60; 
+} else {
+    camera.position.z = 68
+    initialFov = 36; 
+}
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.fov = initialFov;
+  camera.updateProjectionMatrix();
+}
+
+adjustCameraPositionIpad();
+
+
+
+//renderer
 
 const scene = new THREE.Scene();
 
@@ -76,7 +127,7 @@ document.body.appendChild(renderer.domElement);
 const loader = new GLTFLoader();
 
 loader.load(
-  "../../3d/OSEO_Anamorphose_3D_LastVers.glb",
+  "../../3d/OSEO_Jeux_terrainDejeu_VersionFinal.glb",
   function (gltf) {
     model1 = gltf.scene;
     scene.add(model1);
@@ -99,15 +150,6 @@ controls.mouseButtons = {
   MIDDLE: THREE.MOUSE.DOLLY,
   RIGHT: null,
 };
-
-//cube vert
-const geometry = new THREE.BoxGeometry(3, 3, 3);
-const material = new THREE.MeshBasicMaterial({
-  color: 0x00ff00,
-  opacity: 0.5,
-  transparent: true,
-});
-const cube = new THREE.Mesh(geometry, material);
 
 
 
@@ -159,6 +201,7 @@ backgroundSphere.position.set(0, 0, 0); // Positionner la sphère derrière la c
 
 // Ajouter la sphère de fond à la scène
 scene.add(backgroundSphere);
+
 
 
 
@@ -216,20 +259,24 @@ scene.add(particles);
 //=======================================================================//
 
 const Targets = [
-  { azimutal: -1.5348, polar: 0.1223, label: "Target 1", marge: 0.02 }, //insertion (au pôle > difficile, à changer dans le modèle 3D)
+  { azimutal: -2.7464, polar: 2.2217, label: "Target 1", marge: 0.02 }, //insertion (au pôle > difficile, à changer dans le modèle 3D)
   { azimutal: -3.1413, polar: 1.5867, label: "Target 2", marge: 0.02 }, //intégration
   { azimutal: -2.2302, polar: 1.2897, label: "Target 3", marge: 0.02 }, //solidarité
   { azimutal: -0.8084, polar: 2.1514, label: "Target 4", marge: 0.02 }, //dignité
-  { azimutal: 1.6436, polar: 3.1112, label: "Target 5", marge: 0.02 }, //formation
+  { azimutal: 1.6436, polar: 3.1112, label: "Target 5", marge: 0.03 }, //formation
   { azimutal: -2.2412, polar: 1.7698, label: "Target 6", marge: 0.02 }, //responsabilité
   { azimutal: 1.9773, polar: 1.5296, label: "Target 7", marge: 0.02 }, //engagement
   { azimutal: 2.1175, polar: 1.8736, label: "Target 8", marge: 0.02 }, //autonomie
 ];
 //ADD all targets
  
+
+
+
 //=======================================================================//
 // Target Functions======================================================//
 //=======================================================================//
+
 let activeTargetAzimutal;
 let activeTargetPolar;
 let activeTargetIndex;
@@ -252,7 +299,6 @@ function checkTargetPosition(
 ) {
   const azimutCamera = controls.getAzimuthalAngle();
   const polarCamera = controls.getPolarAngle();
-  // const marge = 0.02; // marge de la cible
  
   const azimutMin = azimutTargetInput - margeTargetInput;
   const azimutMax = azimutTargetInput + margeTargetInput;
@@ -271,11 +317,10 @@ function checkTargetPosition(
     isCibleInView = true;
     activeTargetIndex = Targets.findIndex(
       (target) => target.label === labelTargetInput
-    ); // Trouver l'index de la cible active
-    activeTargetAzimutal = azimutTargetInput; // Mettez à jour les coordonnées de la cible active
+    ); 
+    activeTargetAzimutal = azimutTargetInput; 
     activeTargetPolar = polarTargetInput;
  
-    // Augmenter le score si la cible n'a pas encore été affichée + lancer animation et augmenter score
     switch (labelTargetInput) {
       case "Target 1":
         if (!target1Displayed) {
@@ -401,9 +446,6 @@ function checkTargetPosition(
       default:
         break;
     }
- 
-    // console.log(labelTargetInput);
-    // console.log("actif");
   }
 }
 
@@ -437,7 +479,7 @@ function unblurDescription(targetIndex) {
 //=======================================================================//
 
 let activeTargetsCount = 0;
-const victoryPoints = 1; //mettre à jour!!
+const victoryPoints = 8; 
 
 function displayWinScreen() {
   var winScreen = document.querySelector(".win-screen");
@@ -453,7 +495,7 @@ function increaseScore() {
     setTimeout(function() {
         displayWinScreen();
         stopChrono()
-        // Déplacer l'élément
+        // Déplacer les element à la victory page
         var startContainer = document.getElementById('starContainer');
         var timerElement = document.getElementById('timer');
         var newLocation = document.getElementById('newLocation');
@@ -463,11 +505,11 @@ function increaseScore() {
         if (startContainer && !newLocation.contains(startContainer)) {
             newLocation.appendChild(startContainer);
         }
-      }, 1000);
+      }, 2600);
     }
   }
 
-//reste du code pour le score en fonction des targets dans function checkTargetPosition (ligne 209)
+//reste du code pour le score en fonction des targets dans function checkTargetPosition (~ligne 294)
 
 
 
@@ -522,10 +564,10 @@ function animate() {
     }
 
     // printer en html les coordonnée Azimuthal, Polaire et la distance camera
-    // const positionElement = document.getElementById('position');
-    // const rotationElement = document.getElementById('rotation');
-    // positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
-    // rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
+     const positionElement = document.getElementById('position');
+     const rotationElement = document.getElementById('rotation');
+     positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+     rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
             
     controls.update();
             
@@ -549,9 +591,11 @@ if (WebGL.isWebGLAvailable()) {
         
 function hideWelcomeImage() {
     const welcomeImage = document.querySelector(".welcome-page img");
+    const welcomeImageBackground = document.querySelector(".welcome-page .logo-background")
     const startContainer = document.querySelector(".start-container");
     if (welcomeImage) {
         welcomeImage.classList.add("is-gone");
+        welcomeImageBackground.classList.add("is-gone");
         startContainer.classList.add("is-active");
     }
 }
@@ -568,6 +612,7 @@ window.addEventListener("load", () => {
 //====================================================================================
 // start Button=======================================================================
 //====================================================================================
+
 const startButton = document.querySelector(".start-button");
 
 startButton.addEventListener("click", () => {
@@ -654,13 +699,13 @@ function startChrono() {
       para.innerHTML = formatTime(minutes, secondes);
 
       // Ajouter la classe is-gone aux étoiles lorsque le temps spécifié est atteint
-      if (minutes === 1 && secondes === 30) {
+      if (minutes === 3 && secondes === 0) {
           document.querySelector('.star3').classList.add('is-gone');
       }
-      if (minutes === 3 && secondes === 0) {
+      if (minutes === 6 && secondes === 0) {
           document.querySelector('.star2').classList.add('is-gone');
       }
-      if (minutes === 4 && secondes === 30) {
+      if (minutes === 9 && secondes === 0) {
           document.querySelector('.star1').classList.add('is-gone');
       }
 
@@ -688,18 +733,18 @@ function stopChrono() {
 
 
 //====================================================================================
-// stars================================================================
+// rejouer================================================================
 //====================================================================================
 
+const replayButton = document.querySelector('.replay-button')
+
+replayButton.addEventListener("click", () => { 
+  location.reload();
+})
 
 
 
 
-
-
-
-            
-            
 //====================================================================================
 // bodymovin animation================================================================
 //====================================================================================
@@ -722,16 +767,3 @@ lottie.loadAnimation({
             
 
                         
-
-// NAV VALEURS
-
-// créer une liste d'arrays avec chaque lien et y ajouter
-// un paramètre pour la coordoonée de cam correspondante
-
-// const link = document.querySelector(".description.is-found");
-
-// link.addEventListener("click", teleportTo);
-
-// var teleportTo = function () {
-//   console.log("move to...");
-// };
