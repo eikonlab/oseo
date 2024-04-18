@@ -73,6 +73,11 @@
 @media (min-width: 1440px) {
   .tutorial-card{
     width: 20%;
+    .explanation {
+      font-size: 35px;
+      text-align: center;
+      padding: 15px 40px 0 40px;
+    }
   }
   .tutorial-container {
     padding-top: 20px;
