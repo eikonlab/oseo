@@ -1,4 +1,4 @@
-# eikon parcel starter
+# eikon parcel starter --> oseo
 
 ## Prérequis
 
