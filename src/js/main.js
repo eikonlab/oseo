@@ -47,50 +47,6 @@ window.addEventListener("resize",debounce(function(e){
   renderer.setSize(window.innerWidth, window.innerHeight);
 }));
 
-//change camera after delay on mobile
-let timeoutId;
-
-function adjustCameraPosition() {
-
-   if (window.innerWidth < 500) {
-    camera.position.z = 70;
-    initialFov = 60;
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.fov = initialFov;
-    camera.updateProjectionMatrix();
-
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(() => {
-      camera.position.z = 68;
-      initialFov = 36;
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.fov = initialFov;
-      camera.updateProjectionMatrix();
-      timeoutId = null; 
-    }, 11000);
-  } 
-  else {
-    camera.position.z = 68;
-    initialFov = 36;
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.fov = initialFov;
-    camera.updateProjectionMatrix();
-    
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null; 
-    }
-  }
-}
-
-adjustCameraPosition();
-
-window.addEventListener('resize', adjustCameraPosition); 
-
-
 //camera perspective for ipad
 function adjustCameraPositionIpad() {
   if (window.innerWidth < 1000) { 
@@ -375,9 +331,8 @@ function checkTargetPosition(
   const azimutMax = azimutTargetInput + margeTargetInput;
   const polarMin = polarTargetInput - margeTargetInput;
   const polarMax = polarTargetInput + margeTargetInput;
-  const wordFoundAnimationText = document.getElementById(
-    "wordFoundAnimationText"
-  );
+  const wordFoundAnimationText = document.getElementById("wordFoundAnimationText");
+  const animBox = document.querySelector('.animation-box');
  
   if (
     azimutCamera >= azimutMin &&
@@ -401,12 +356,14 @@ function checkTargetPosition(
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
             "Insertion";
-          wordFoundAnimationText.classList.add("animation-active");
+          document.getElementById("wordFoundAnimationDescription").textContent =
+            "Trouver sa place. Grâce au travail et aux liens sociaux";
+          animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 2":
@@ -416,12 +373,14 @@ function checkTargetPosition(
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
             "Intégration";
-          wordFoundAnimationText.classList.add("animation-active");
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "Viser l’autonomie à travers la langue et le travail";
+          animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 3":
@@ -430,13 +389,15 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Solidarité";
-          wordFoundAnimationText.classList.add("animation-active");
+          "Solidarité";
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "Bâtir ensemble une société plus juste";
+          animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 4":
@@ -445,13 +406,15 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Dignité";
-          wordFoundAnimationText.classList.add("animation-active");
-          controls.enabled = false;
+          "Dignité";
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "Garantir la sécurité morale et matérielle de tous et toutes";
+          animBox.classList.add("animation-active");
+          controls.enabled = false;          
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 5":
@@ -460,13 +423,15 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Formation";
-          wordFoundAnimationText.classList.add("animation-active");
-          controls.enabled = false;
+          "Formation";
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "Se former pour s’émanciper";
+          animBox.classList.add("animation-active");
+          controls.enabled = false;          
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 6":
@@ -475,13 +440,15 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Responsabilité";
-          wordFoundAnimationText.classList.add("animation-active");
+          "Responsabilité";
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "S’engager, personnellement et collectivement";
+          animBox.classList.add("animation-active"); 
           controls.enabled = false;
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 7":
@@ -490,13 +457,15 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Engagement";
-          wordFoundAnimationText.classList.add("animation-active");
+          "Engagement";
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "Combattre l’exclusion, la précarité";
+          animBox.classList.add("animation-active"); 
           controls.enabled = false;
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
       case "Target 8":
@@ -505,13 +474,15 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-            "Autonomie";
-          wordFoundAnimationText.classList.add("animation-active");
+          "Autonomie";
+          document.getElementById("wordFoundAnimationDescription").textContent =
+          "Favoriser le pouvoir d’agir";
+          animBox.classList.add("animation-active"); 
           controls.enabled = false;
           setTimeout(function () {
-            wordFoundAnimationText.classList.remove("animation-active");
+            animBox.classList.remove("animation-active");
             controls.enabled = true;
-          }, 3000);
+          }, 6000);
         }
         break;
  
@@ -573,13 +544,17 @@ function increaseScore() {
         var startContainer = document.getElementById('starContainer');
         var timerElement = document.getElementById('timer');
         var newLocation = document.getElementById('newLocation');
+        // var descriptionContainer = document.getElementById('descriptionContainer');
         if (timerElement && !newLocation.contains(timerElement)) {
         newLocation.appendChild(timerElement);
         }
         if (startContainer && !newLocation.contains(startContainer)) {
             newLocation.appendChild(startContainer);
         }
-      }, 2600);
+        // if (descriptionContainer && !newLocation.contains(descriptionContainer)) {
+        //   newLocation.appendChild(descriptionContainer);
+      }
+      , 6000);
     }
   }
 

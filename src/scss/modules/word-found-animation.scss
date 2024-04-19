@@ -8,13 +8,18 @@
   align-items: center;
   
   color: var(--white);
-  -webkit-text-stroke: 1px var(--white);
-  font-size: 70px;
+  font-size: 30px;
   font-weight: bold;
 
   pointer-events: none;
 
   transition: 0.5s;
+
+  .animation-description {
+    font-size: 20px!important;
+    font-weight: normal!important;
+    text-shadow: 6px 6px 20px rgba(36, 36, 36, 0.5);
+  }
 
   &.is-active {
     box-shadow: 0px 4px 120.8px 0px #fff inset, 2px 7px 250px 0px #fff inset;
@@ -22,27 +27,27 @@
 
 }
 
-#wordFoundAnimationText {
+.animation-box {
   opacity: 0;
-  // border: solid red 2px;
-  // background: green;
-  //ci-dessous dans active
   backdrop-filter: blur(0px);
   transition: backdrop-filter 0.5s;
+  border: solid 1px red;
 
   &.animation-active {
-    inset: 0;
-    animation: TextAnimation 2s;
+    animation: TextAnimation 5s ;
     animation-delay: 0.6s;
     backdrop-filter: blur(4px);
-    height: 50%;
-    width: 50%;
+
+    height: 100%;
+    width: 100%;
+    padding-left: 10%;
 
     transition: backdrop-filter 0.5s;
   
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 
     z-index: 100000;
   }
@@ -55,6 +60,7 @@
   }
   10% {
     opacity: 1;
+    transform: scale(1.1);
   }
   90% {
     opacity: 1;
@@ -72,6 +78,13 @@
 // media queries=========================================================//
 //=======================================================================//
 @media (min-width: 768px) {
+
+  .animation-box {
+    &.animation-active {
+      padding-left: 25%;
+    }
+  }
+
   @keyframes TextAnimation {
     0% {
       opacity: 0;
@@ -79,10 +92,37 @@
     }
     10% {
       opacity: 1;
+      transform: scale(1.7);
     }
     90% {
       opacity: 1;
-      transform: scale(3);
+      transform: scale(1.7);
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .animation-box {
+    &.animation-active {
+      padding-left: 33%;
+    }
+  }
+
+    @keyframes TextAnimation {
+    0% {
+      opacity: 0;
+      transform: scale(1);
+    }
+    10% {
+      opacity: 1;
+      transform: scale(2.5);
+    }
+    90% {
+      opacity: 1;
+      transform: scale(2.5);
     }
     100% {
       opacity: 0;
