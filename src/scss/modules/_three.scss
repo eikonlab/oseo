@@ -1,3 +1,9 @@
 canvas {
-  border: solid 3px red;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  
+  pointer-events: all;
+  
+  filter: saturate(100%) contrast(110%);
 }

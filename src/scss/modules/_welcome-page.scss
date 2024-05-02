@@ -1,0 +1,148 @@
+.welcome-page {
+  position: absolute;
+  inset: 0;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+ 
+  z-index: 1000;
+ 
+  background: linear-gradient(79deg, rgb(92, 141, 198) 0%, rgb(151, 196, 247) 19%, rgb(151, 196, 247) 75%, rgb(92, 141, 198) 100%);
+ 
+  &.is-gone {
+    opacity: 0;
+
+    transition: var(--off-transition) 0.5s;
+ 
+    pointer-events: none !important;
+ 
+    * {
+      pointer-events: none !important;
+    }
+  }
+}
+ 
+.welcome-page img {
+  width: 50%;
+
+  transition: var(--off-transition);
+
+  z-index: 2;
+ 
+  &.is-gone {
+    opacity: 0;
+
+    pointer-events: none !important;
+  }
+}
+ 
+.start-container {
+  position: absolute;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+  opacity: 0;
+ 
+  transition: var(--off-transition) 0.2s;
+ 
+  &.is-active {
+    opacity: 1;
+
+    pointer-events: all;
+ 
+    transition: var(--on-transition) 0.2s;
+  }
+}
+
+.explanation {
+  margin-bottom: 20px;
+
+  color: var(--white);
+  font-weight: 500;
+}
+ 
+.start-button {
+  padding: 12px 30px 14px 30px;
+
+  border-radius: 10px;
+  background: var(--glass-background);
+  
+  color: var(--white);
+  line-height: 25px;
+  text-transform: uppercase;
+ 
+  cursor: pointer;
+ 
+  transition: var(--off-transition);
+ 
+  &:active {
+    background: var(--red-active);
+
+    transform: scale(0.8);
+    transition: transform var(--off-transition);
+  }
+ 
+  &:hover {
+    background: var(--red-hover);
+
+    font-size: 26px;
+    transition: var(--off-transition);
+  }
+}
+
+.logo-background {
+  position: absolute;
+  
+  height: 100%;
+  width: 100%;
+  
+  background: var(--white);
+
+  &.is-gone {
+    opacity: 0;
+
+    pointer-events: none !important;
+  }
+}
+
+.mobile-disclaimer {
+  position: fixed;
+  font-size: 10px;
+  font-weight: 100;
+
+  bottom: 10px;
+}
+
+//=======================================================================//
+// media queries=========================================================//
+//=======================================================================//
+@media (min-width: 768px) {
+  .explanation {
+    padding: 0 10%;
+
+    font-size: 35px;
+  }
+}
+ 
+@media (min-width: 1440px) {
+  .explanation {
+    font-size: 40px;
+
+    padding: 0 10%;
+  }
+}
+ 
+@media (hover: hover) {
+  .mobile-disclaimer {
+    display: none;
+  }
+}

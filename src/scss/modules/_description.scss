@@ -1,0 +1,160 @@
+.description-container {
+  width: 35%;
+
+  position: absolute;
+  top:3px;
+  right: 10px;
+  z-index: 100;
+
+  font-size: 10px;
+  
+  opacity: 0;
+  overflow: hidden;
+  
+  &.is-active {
+    opacity: 1;
+    transition: var(--on-transition-long) 1s;
+  }
+}
+
+.title {
+  margin: 0 5px 3px 0;
+
+  text-align: right;
+  text-transform: uppercase;
+  font-size: 15px;
+  color: var(--black);
+}
+
+.description {
+  display: block;
+
+  padding: 1.5px 12px;
+  margin-bottom: 5px;
+
+  border-radius: 20px;
+  background: var(--glass-background);
+  backdrop-filter: blur(15px);
+
+  transition: 1s;
+
+  h2,h3 {
+    filter: blur(2px);
+  }
+
+  h2 {
+    font-weight: normal;
+    text-transform: uppercase;
+
+    transition: var(--off-transition);
+  }
+
+  h3 {
+    display: none;
+
+    font-weight: normal;
+    line-height: 90%;
+  
+    transition: var(--off-transition);
+  }
+
+  &.is-active {
+    padding: 8px 12px;
+  
+    background: var(--red);
+  
+    filter: blur(0px);
+  
+    h2 {
+      font-weight: bold;
+      text-shadow: none;
+    }
+  
+    h3 {
+      display: block;
+      margin-top: 3px;
+  
+      text-shadow: none;
+    }
+  }
+  
+  &.is-found {
+    h2,h3 {
+      filter: blur(0px);
+    }
+  }
+}
+
+
+
+
+//=======================================================================//
+// media queries=========================================================//
+//=======================================================================//
+@media (min-width: 768px) {
+  .description-container {
+    width: 25%;
+    right: 20px;
+    top: 20px;
+
+    font-size: 14px;
+  }
+
+  .description h3 {
+    display: none;
+    padding-bottom: 3px;
+
+    font-size: 16px;
+    line-height: 90%;
+  }
+
+  .description {
+    h2,h3 {
+      filter: blur(3px);
+    }
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .description-container {
+    width: 15%;
+
+    font-size: 20px;
+  }
+
+  .description h3 {
+    line-height: 90%;
+    font-size: 20px;
+  }
+
+  .description {
+    h2,h3 {
+      filter: blur(3.5px);
+    }
+  }
+}
+
+@media (min-width:2200px) {
+  .description-container {
+    width: 10%;
+
+    font-size: 25px;
+  }
+
+  .description {
+    h2,h3 {
+      filter: blur(4.5px);
+    }
+    h3 {
+      font-size: 25px;
+    }
+  }
+
+  .title {
+    font-size: 30px;
+  }
+}
