@@ -800,4 +800,4 @@ renderer.domElement.addEventListener("mouseup", function (event) {
   }
 });
 
-//test
+console.log("ça marche !");
