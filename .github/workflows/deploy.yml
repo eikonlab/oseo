@@ -24,20 +24,12 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Verify build output
-        run: |
-          echo "Listing project directory..."
-          ls -l
-          echo "Listing dist directory..."
-          ls -l ./dist
-
       - name: Deploy to server
-        if: success()
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+          REMOTE_HOST: ${{ vars.REMOTE_HOST }}
+          REMOTE_USER: ${{ vars.REMOTE_USER }}
+          REMOTE_PATH: ${{ vars.REMOTE_PATH }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
