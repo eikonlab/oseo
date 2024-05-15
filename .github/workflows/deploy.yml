@@ -24,7 +24,15 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Verify build output
+        run: |
+          echo "Listing project directory..."
+          ls -l
+          echo "Listing build directory..."
+          ls -l ./build
+
       - name: Deploy to server
+        if: success()
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
@@ -33,4 +41,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
+          echo "Testing SSH connection..."
+          ssh -i private_key -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "mkdir -p $REMOTE_PATH && echo 'Directory created'"
+          echo "Starting rsync..."
           rsync -avz -e "ssh -i private_key -o StrictHostKeyChecking=no" --delete ./build/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH
