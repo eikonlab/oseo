@@ -28,8 +28,8 @@ jobs:
         run: |
           echo "Listing project directory..."
           ls -l
-          echo "Listing build directory..."
-          ls -l ./build
+          echo "Listing dist directory..."
+          ls -l ./dist
 
       - name: Deploy to server
         if: success()
@@ -44,4 +44,4 @@ jobs:
           echo "Testing SSH connection..."
           ssh -i private_key -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "mkdir -p $REMOTE_PATH && echo 'Directory created'"
           echo "Starting rsync..."
-          rsync -avz -e "ssh -i private_key -o StrictHostKeyChecking=no" --delete ./build/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH
+          rsync -avz -e "ssh -i private_key -o StrictHostKeyChecking=no" --delete ./dist/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH
