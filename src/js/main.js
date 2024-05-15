@@ -691,6 +691,7 @@ controls.addEventListener("change", checkCameraMovement);
 let chrono;
 
 // Fonction pour démarrer le chronomètre
+// Fonction pour démarrer le chronomètre
 function startChrono() {
   // minutes et secondes écoulées
   let minutes = 0;
