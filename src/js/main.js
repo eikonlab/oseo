@@ -799,5 +799,3 @@ renderer.domElement.addEventListener("mouseup", function (event) {
     isDragging = false;
   }
 });
-
-//test
