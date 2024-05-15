@@ -296,6 +296,8 @@ let target7Displayed = false;
 let target8Displayed = false;
 
 //verifier si on est au bon endroit avec la cam
+let isCibleInView = false;
+
 function checkTargetPosition(
   azimutTargetInput,
   polarTargetInput,
@@ -548,8 +550,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   //definir par défaut que nous ne somme pas dans une target area
-  let isCibleInView = false;
-
+  isCibleInView = false;
   //sorti les const et les chnger en let pour les utiliser dans plusieur function
   let azimutTargetData, polarTargetData, labelTargetData, margeTargetData;
 
