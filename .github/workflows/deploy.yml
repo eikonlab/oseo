@@ -1,0 +1,39 @@
+name: Deploy to Infomaniak
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ vars.REMOTE_HOST }}
+          REMOTE_USER: ${{ vars.REMOTE_USER }}
+          REMOTE_PATH: ${{ vars.REMOTE_PATH }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          echo "Testing SSH connection..."
+          ssh -i private_key -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "mkdir -p $REMOTE_PATH && echo 'Directory created'"
+          echo "Starting rsync..."
+          rsync -avz -e "ssh -i private_key -o StrictHostKeyChecking=no" --delete ./dist/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH

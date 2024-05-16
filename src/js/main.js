@@ -8,54 +8,55 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // Importer OrbitControls depuis three-stdlib pour pouvoir utiliser SetAzimuthalAngle et SetPolarAngle
 import { OrbitControls } from "three-stdlib";
 
-
-
 //=======================================================================//
 // Scene=================================================================//
 //=======================================================================//
 
-let initialFov = 36; 
-let camera; 
+let initialFov = 36;
+let camera;
 
 function initCamera() {
-    camera = new THREE.PerspectiveCamera(
-        initialFov,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
-    camera.filmGauge = 35;
-    camera.position.x = 0;
+  camera = new THREE.PerspectiveCamera(
+    initialFov,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.filmGauge = 35;
+  camera.position.x = 0;
 }
 
 initCamera();
 
-//resize canvas 
-function debounce(func){
+//resize canvas
+function debounce(func) {
   var timer;
-  return function(event){
-    if(timer) clearTimeout(timer);
+  return function (event) {
+    if (timer) clearTimeout(timer);
     document.body.classList.add("resizing");
-    timer = setTimeout(func,100,event);
+    timer = setTimeout(func, 100, event);
   };
 }
 
-window.addEventListener("resize",debounce(function(e){
-  document.body.classList.remove("resizing");
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}));
+window.addEventListener(
+  "resize",
+  debounce(function (e) {
+    document.body.classList.remove("resizing");
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  })
+);
 
 //camera perspective for ipad
 function adjustCameraPositionIpad() {
-  if (window.innerWidth < 1000) { 
-    camera.position.z = 70
-    initialFov = 60; 
-} else {
-    camera.position.z = 68
-    initialFov = 36; 
-}
+  if (window.innerWidth < 1000) {
+    camera.position.z = 70;
+    initialFov = 60;
+  } else {
+    camera.position.z = 68;
+    initialFov = 36;
+  }
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.fov = initialFov;
   camera.updateProjectionMatrix();
@@ -63,20 +64,14 @@ function adjustCameraPositionIpad() {
 
 adjustCameraPositionIpad();
 
-
-
 //renderer
 
 const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000, 0); 
+renderer.setClearColor(0x000000, 0);
 document.body.appendChild(renderer.domElement);
-
-
-
-
 
 //loader pour importer notre modele
 const loader = new GLTFLoader();
@@ -84,6 +79,7 @@ const loader = new GLTFLoader();
 loader.load(
   "../../3d/OSEO_Jeux_terrainDejeu_VersionFinal.glb",
   function (gltf) {
+    let model1;
     model1 = gltf.scene;
     scene.add(model1);
   },
@@ -105,9 +101,6 @@ controls.mouseButtons = {
   MIDDLE: THREE.MOUSE.DOLLY,
   RIGHT: null,
 };
-
-
-
 
 //=======================================================================//
 // GRADIENT==============================================================//
@@ -157,10 +150,6 @@ backgroundSphere.position.set(0, 0, 0); // Positionner la sphère derrière la c
 // Ajouter la sphère de fond à la scène
 scene.add(backgroundSphere);
 
-
-
-
-
 //=======================================================================//
 // PARTICULES============================================================//
 //=======================================================================//
@@ -206,8 +195,6 @@ const particles = new THREE.Points(particleGeometry, particleMaterial);
 // Ajout des particules à la scène
 scene.add(particles);
 
-
-
 //=======================================================================//
 // AUDIO MANAGER==========================================================//
 //=======================================================================//
@@ -219,15 +206,15 @@ class AudioManager {
   }
 
   loadSound(key, url) {
-      const audio = new Audio(url);
-      this.sounds[key] = audio;
+    const audio = new Audio(url);
+    this.sounds[key] = audio;
   }
 
   playSound(key) {
-      const audio = this.sounds[key];
-      if (audio) {
-          audio.play();
-      }
+    const audio = this.sounds[key];
+    if (audio) {
+      audio.play();
+    }
   }
 
   loadSounds(sounds) {
@@ -238,11 +225,11 @@ class AudioManager {
   }
 
   stopSound(key) {
-      const audio = this.sounds[key];
-      if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-      }
+    const audio = this.sounds[key];
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
   }
 
   playNextSound() {
@@ -258,28 +245,22 @@ class AudioManager {
 const audioManager = new AudioManager();
 
 // Charger les sons
-audioManager.loadSound('click-button', '../../sounds/click-button.mp3');
-audioManager.loadSound('win', '../../sounds/win.mp3');
+audioManager.loadSound("click-button", "../../sounds/click-button.mp3");
+audioManager.loadSound("win", "../../sounds/win.mp3");
 // audioManager.loadSound('woosh', '../../sounds/woosh.mp3');
 // audioManager.loadSound('doing', '../../sounds/doing.mp3');
 // audioManager.loadSound('jingle', '../../sounds/jingle.wav');
 
-
-
 audioManager.loadSounds([
-  '../../sounds/son1.mp3',
-  '../../sounds/son2.mp3',
-  '../../sounds/son3.mp3',
-  '../../sounds/son4.mp3',
-  '../../sounds/son5.mp3',
-  '../../sounds/son6.mp3',
-  '../../sounds/son7.mp3',
-  '../../sounds/son8.mp3'
+  "../../sounds/son1.mp3",
+  "../../sounds/son2.mp3",
+  "../../sounds/son3.mp3",
+  "../../sounds/son4.mp3",
+  "../../sounds/son5.mp3",
+  "../../sounds/son6.mp3",
+  "../../sounds/son7.mp3",
+  "../../sounds/son8.mp3",
 ]);
-
-
-
-
 
 //=======================================================================//
 // Tableau coordonnée====================================================//
@@ -296,9 +277,6 @@ const Targets = [
   { azimutal: 2.1175, polar: 1.8736, label: "Target 8", marge: 0.02 }, //autonomie
 ];
 //ADD all targets
- 
-
-
 
 //=======================================================================//
 // Target Functions======================================================//
@@ -307,7 +285,7 @@ const Targets = [
 let activeTargetAzimutal;
 let activeTargetPolar;
 let activeTargetIndex;
- 
+
 let target1Displayed = false;
 let target2Displayed = false;
 let target3Displayed = false;
@@ -318,6 +296,8 @@ let target7Displayed = false;
 let target8Displayed = false;
 
 //verifier si on est au bon endroit avec la cam
+let isCibleInView = false;
+
 function checkTargetPosition(
   azimutTargetInput,
   polarTargetInput,
@@ -326,28 +306,29 @@ function checkTargetPosition(
 ) {
   const azimutCamera = controls.getAzimuthalAngle();
   const polarCamera = controls.getPolarAngle();
- 
+
   const azimutMin = azimutTargetInput - margeTargetInput;
   const azimutMax = azimutTargetInput + margeTargetInput;
   const polarMin = polarTargetInput - margeTargetInput;
   const polarMax = polarTargetInput + margeTargetInput;
-  const wordFoundAnimationText = document.getElementById("wordFoundAnimationText");
-  const animBox = document.querySelector('.animation-box');
- 
+  const wordFoundAnimationText = document.getElementById(
+    "wordFoundAnimationText"
+  );
+  const animBox = document.querySelector(".animation-box");
+
   if (
     azimutCamera >= azimutMin &&
     azimutCamera <= azimutMax &&
     polarCamera >= polarMin &&
     polarCamera <= polarMax
   ) {
-
     isCibleInView = true;
     activeTargetIndex = Targets.findIndex(
       (target) => target.label === labelTargetInput
-    ); 
-    activeTargetAzimutal = azimutTargetInput; 
+    );
+    activeTargetAzimutal = azimutTargetInput;
     activeTargetPolar = polarTargetInput;
- 
+
     switch (labelTargetInput) {
       case "Target 1":
         if (!target1Displayed) {
@@ -374,7 +355,7 @@ function checkTargetPosition(
           document.getElementById("wordFoundAnimationText").textContent =
             "Intégration";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "Viser l’autonomie à travers la langue et le travail";
+            "Viser l’autonomie à travers la langue et le travail";
           animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
@@ -389,9 +370,9 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-          "Solidarité";
+            "Solidarité";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "Bâtir ensemble une société plus juste";
+            "Bâtir ensemble une société plus juste";
           animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
@@ -406,11 +387,11 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-          "Dignité";
+            "Dignité";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "Garantir la sécurité morale et matérielle de tous et toutes";
+            "Garantir la sécurité morale et matérielle de tous et toutes";
           animBox.classList.add("animation-active");
-          controls.enabled = false;          
+          controls.enabled = false;
           setTimeout(function () {
             animBox.classList.remove("animation-active");
             controls.enabled = true;
@@ -423,11 +404,11 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-          "Formation";
+            "Formation";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "Se former pour s’émanciper";
+            "Se former pour s’émanciper";
           animBox.classList.add("animation-active");
-          controls.enabled = false;          
+          controls.enabled = false;
           setTimeout(function () {
             animBox.classList.remove("animation-active");
             controls.enabled = true;
@@ -440,10 +421,10 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-          "Responsabilité";
+            "Responsabilité";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "S’engager, personnellement et collectivement";
-          animBox.classList.add("animation-active"); 
+            "S’engager, personnellement et collectivement";
+          animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             animBox.classList.remove("animation-active");
@@ -457,10 +438,10 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-          "Engagement";
+            "Engagement";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "Combattre l’exclusion, la précarité";
-          animBox.classList.add("animation-active"); 
+            "Combattre l’exclusion, la précarité";
+          animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             animBox.classList.remove("animation-active");
@@ -474,10 +455,10 @@ function checkTargetPosition(
           increaseScore();
           unblurDescription(activeTargetIndex);
           document.getElementById("wordFoundAnimationText").textContent =
-          "Autonomie";
+            "Autonomie";
           document.getElementById("wordFoundAnimationDescription").textContent =
-          "Favoriser le pouvoir d’agir";
-          animBox.classList.add("animation-active"); 
+            "Favoriser le pouvoir d’agir";
+          animBox.classList.add("animation-active");
           controls.enabled = false;
           setTimeout(function () {
             animBox.classList.remove("animation-active");
@@ -485,7 +466,7 @@ function checkTargetPosition(
           }, 6000);
         }
         break;
- 
+
       default:
         break;
     }
@@ -514,15 +495,12 @@ function unblurDescription(targetIndex) {
   }
 }
 
-
-
-
 //=======================================================================//
 // Score=================================================================//
 //=======================================================================//
 
 let activeTargetsCount = 0;
-const victoryPoints = 8; 
+const victoryPoints = 8;
 
 function displayWinScreen() {
   var winScreen = document.querySelector(".win-screen");
@@ -536,27 +514,26 @@ function increaseScore() {
   playSoundForScore(activeTargetsCount);
 
   if (activeTargetsCount === victoryPoints) {
-    setTimeout(function() {
-        displayWinScreen();
-        stopChrono()
-        audioManager.playSound('win'); 
-        // Déplacer les element à la victory page
-        var startContainer = document.getElementById('starContainer');
-        var timerElement = document.getElementById('timer');
-        var newLocation = document.getElementById('newLocation');
-        // var descriptionContainer = document.getElementById('descriptionContainer');
-        if (timerElement && !newLocation.contains(timerElement)) {
+    setTimeout(function () {
+      displayWinScreen();
+      stopChrono();
+      audioManager.playSound("win");
+      // Déplacer les element à la victory page
+      var startContainer = document.getElementById("starContainer");
+      var timerElement = document.getElementById("timer");
+      var newLocation = document.getElementById("newLocation");
+      // var descriptionContainer = document.getElementById('descriptionContainer');
+      if (timerElement && !newLocation.contains(timerElement)) {
         newLocation.appendChild(timerElement);
-        }
-        if (startContainer && !newLocation.contains(startContainer)) {
-            newLocation.appendChild(startContainer);
-        }
-        // if (descriptionContainer && !newLocation.contains(descriptionContainer)) {
-        //   newLocation.appendChild(descriptionContainer);
       }
-      , 6000);
-    }
+      if (startContainer && !newLocation.contains(startContainer)) {
+        newLocation.appendChild(startContainer);
+      }
+      // if (descriptionContainer && !newLocation.contains(descriptionContainer)) {
+      //   newLocation.appendChild(descriptionContainer);
+    }, 6000);
   }
+}
 
 // Fonction pour jouer le son approprié en fonction du score
 function playSoundForScore(score) {
@@ -565,8 +542,6 @@ function playSoundForScore(score) {
   }
 }
 
-
-
 //=======================================================================//
 // Rendu=================================================================//
 //=======================================================================//
@@ -574,93 +549,87 @@ function playSoundForScore(score) {
 function animate() {
   requestAnimationFrame(animate);
 
-  
   //definir par défaut que nous ne somme pas dans une target area
   isCibleInView = false;
-  
   //sorti les const et les chnger en let pour les utiliser dans plusieur function
   let azimutTargetData, polarTargetData, labelTargetData, margeTargetData;
-  
-  // aller chercher les coordonnées dans le tableau
-    Targets.forEach((target) => {
-        azimutTargetData = target.azimutal;
-        polarTargetData = target.polar;
-        labelTargetData = target.label;
-        margeTargetData = target.marge;
-      
-        checkTargetPosition(
-            azimutTargetData,
-            polarTargetData,
-            labelTargetData,
-            margeTargetData
-        );
-    });
-        
-    // Mettre à jour les descriptions des cibles
-    Targets.forEach((target, index) => {
-        const descriptionElement = document.querySelector(
-            `.description${index + 1}`
-            ); // Sélectionnez l'élément HTML correspondant
-            if (index === activeTargetIndex) {
-                descriptionElement.classList.add("is-active"); // Ajoutez la classe is-active
-            } else {
-                descriptionElement.classList.remove("is-active"); // Retirez la classe is-active des autres éléments
-            }
-    });
-            
-    //evenement quand on rentre et sort de la zone cible
-    if (isCibleInView) {
-    // scene.add(cube);
-        adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
-    } else {
-        wordFound.classList.remove("is-active");
-    }
 
-    // printer en html les coordonnée Azimuthal, Polaire et la distance camera
-     //const positionElement = document.getElementById('position');
-     //const rotationElement = document.getElementById('rotation');
-     //positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
-     //rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
-            
-    controls.update();
-            
-    renderer.render(scene, camera);
+  // aller chercher les coordonnées dans le tableau
+  Targets.forEach((target) => {
+    azimutTargetData = target.azimutal;
+    polarTargetData = target.polar;
+    labelTargetData = target.label;
+    margeTargetData = target.marge;
+
+    checkTargetPosition(
+      azimutTargetData,
+      polarTargetData,
+      labelTargetData,
+      margeTargetData
+    );
+  });
+
+  // Mettre à jour les descriptions des cibles
+  Targets.forEach((target, index) => {
+    const descriptionElement = document.querySelector(
+      `.description${index + 1}`
+    ); // Sélectionnez l'élément HTML correspondant
+    if (index === activeTargetIndex) {
+      descriptionElement.classList.add("is-active"); // Ajoutez la classe is-active
+    } else {
+      descriptionElement.classList.remove("is-active"); // Retirez la classe is-active des autres éléments
+    }
+  });
+
+  //evenement quand on rentre et sort de la zone cible
+  if (isCibleInView) {
+    // scene.add(cube);
+    adjustCamToTarget(azimutTargetData, polarTargetData, labelTargetData);
+  } else {
+    wordFound.classList.remove("is-active");
+  }
+
+  // printer en html les coordonnée Azimuthal, Polaire et la distance camera
+  //const positionElement = document.getElementById('position');
+  //const rotationElement = document.getElementById('rotation');
+  //positionElement.textContent = `Camera Position : Distance: ${controls.getDistance().toFixed(4)}`;
+  //rotationElement.textContent = `Camera Rotation : Azimuthal: ${controls.getAzimuthalAngle().toFixed(4)}, Polar: ${controls.getPolarAngle().toFixed(4)}`;
+
+  controls.update();
+
+  renderer.render(scene, camera);
 }
-        
+
 //web gl compatibility check
 if (WebGL.isWebGLAvailable()) {
-    animate();
+  animate();
 } else {
-    const warning = WebGL.getWebGLErrorMessage();
-    document.getElementById("container").appendChild(warning);
+  const warning = WebGL.getWebGLErrorMessage();
+  document.getElementById("container").appendChild(warning);
 }
-        
-
-
 
 //====================================================================================
 // Welcome page=======================================================================
 //====================================================================================
-        
+
 function hideWelcomeImage() {
-    const welcomeImage = document.querySelector(".welcome-page img");
-    const welcomeImageBackground = document.querySelector(".welcome-page .logo-background")
-    const startContainer = document.querySelector(".start-container");
-    if (welcomeImage) {
-        welcomeImage.classList.add("is-gone");
-        welcomeImageBackground.classList.add("is-gone");
-        startContainer.classList.add("is-active");
-    }
+  const welcomeImage = document.querySelector(".welcome-page img");
+  const welcomeImageBackground = document.querySelector(
+    ".welcome-page .logo-background"
+  );
+  const startContainer = document.querySelector(".start-container");
+  if (welcomeImage) {
+    welcomeImage.classList.add("is-gone");
+    welcomeImageBackground.classList.add("is-gone");
+    startContainer.classList.add("is-active");
+  }
 }
 
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        hideWelcomeImage();
-    }, 1000);
+  setTimeout(() => {
+    hideWelcomeImage();
+  }, 1000);
 });
-
-
-
 
 //====================================================================================
 // start Button=======================================================================
@@ -669,59 +638,50 @@ window.addEventListener("load", () => {
 const startButton = document.querySelector(".start-button");
 
 startButton.addEventListener("click", () => {
-    const welcomePage = document.querySelector(".welcome-page");
-    const tutorialContainer = document.querySelector(".tutorial-container");
-    const descriptionContainer = document.querySelector(".description-container");
-    const ScoreCounter = document.querySelector(".score-counter");
-    welcomePage.classList.add("is-gone");
-    tutorialContainer.classList.add("is-active");
-    descriptionContainer.classList.add("is-active");
-    ScoreCounter.classList.add("is-active");
-    startChrono();
-    audioManager.playSound('click-button'); 
+  const welcomePage = document.querySelector(".welcome-page");
+  const tutorialContainer = document.querySelector(".tutorial-container");
+  const descriptionContainer = document.querySelector(".description-container");
+  const ScoreCounter = document.querySelector(".score-counter");
+  welcomePage.classList.add("is-gone");
+  tutorialContainer.classList.add("is-active");
+  descriptionContainer.classList.add("is-active");
+  ScoreCounter.classList.add("is-active");
+  startChrono();
+  audioManager.playSound("click-button");
 
-    // audioManager.playSound('doing');//blague
-
-    
+  // audioManager.playSound('doing');//blague
 });
-        
-
-
 
 //====================================================================================
 // remove tutorial====================================================================
 //====================================================================================
 
 function checkCameraMovement() {
-    const initialPosition = new THREE.Vector3(0, 0, 0);
-    const currentPosition = camera.position.clone();
-    const distance = initialPosition.distanceTo(currentPosition);
-    
-    if (distance > 0.1) {
-        const tutorialContainer = document.querySelector(".tutorial-container");
-        
-        tutorialContainer.classList.remove("is-active");
-        tutorialContainer.classList.add("is-gone");
+  const initialPosition = new THREE.Vector3(0, 0, 0);
+  const currentPosition = camera.position.clone();
+  const distance = initialPosition.distanceTo(currentPosition);
 
-        // Écoute les clics sur le document pendant 7 secondes
-        let timeout = setTimeout(() => {
-            tutorialContainer.classList.remove("is-gone");
-            tutorialContainer.classList.add("is-active");
-        }, 14000);
+  if (distance > 0.1) {
+    const tutorialContainer = document.querySelector(".tutorial-container");
 
-        // Si un clic est détecté pendant cette période, annule le timeout
-        document.addEventListener("click", function onClick() {
-            clearTimeout(timeout);
-            document.removeEventListener("click", onClick); // Supprime l'écouteur après utilisation
-        });
+    tutorialContainer.classList.remove("is-active");
+    tutorialContainer.classList.add("is-gone");
 
-    }
+    // Écoute les clics sur le document pendant 7 secondes
+    let timeout = setTimeout(() => {
+      tutorialContainer.classList.remove("is-gone");
+      tutorialContainer.classList.add("is-active");
+    }, 14000);
+
+    // Si un clic est détecté pendant cette période, annule le timeout
+    document.addEventListener("click", function onClick() {
+      clearTimeout(timeout);
+      document.removeEventListener("click", onClick); // Supprime l'écouteur après utilisation
+    });
+  }
 }
 
 controls.addEventListener("change", checkCameraMovement);
-
-
-
 
 //====================================================================================
 //  TIMER====================================================================
@@ -748,87 +708,79 @@ function startChrono() {
   // et arrête automatiquement après 60 minutes.
   // ---------------------------------------------------------
   function tictictic() {
-      secondes++;
-      if (secondes === 60) {
-          minutes++;
-          secondes = 0;
-      }
-      para.innerHTML = formatTime(minutes, secondes);
+    secondes++;
+    if (secondes === 60) {
+      minutes++;
+      secondes = 0;
+    }
+    para.innerHTML = formatTime(minutes, secondes);
 
-      // Ajouter la classe is-gone aux étoiles lorsque le temps spécifié est atteint
-      if (minutes === 3 && secondes === 0) {
-          document.querySelector('.star3').classList.add('is-gone');
-      }
-      if (minutes === 6 && secondes === 0) {
-          document.querySelector('.star2').classList.add('is-gone');
-      }
-      if (minutes === 9 && secondes === 0) {
-          document.querySelector('.star1').classList.add('is-gone');
-      }
+    // Ajouter la classe is-gone aux étoiles lorsque le temps spécifié est atteint
+    if (minutes === 3 && secondes === 0) {
+      document.querySelector(".star3").classList.add("is-gone");
+    }
+    if (minutes === 6 && secondes === 0) {
+      document.querySelector(".star2").classList.add("is-gone");
+    }
+    if (minutes === 9 && secondes === 0) {
+      document.querySelector(".star1").classList.add("is-gone");
+    }
 
-      if (minutes === 60 && secondes === 0) {
-          // arrête l'exécution lancée par setInterval()
-          stopChrono();
-      }
+    if (minutes === 60 && secondes === 0) {
+      // arrête l'exécution lancée par setInterval()
+      stopChrono();
+    }
   }
 
   // ---------------------------------------------------------
   // Formatage du temps en minutes et secondes
   // ---------------------------------------------------------
   function formatTime(minutes, secondes) {
-      return minutes.toString().padStart(2, '0') + ':' + secondes.toString().padStart(2, '0');
+    return (
+      minutes.toString().padStart(2, "0") +
+      ":" +
+      secondes.toString().padStart(2, "0")
+    );
   }
 }
 
-
 // Fonction pour arrêter le chronomètre
 function stopChrono() {
-    clearInterval(chrono);
+  clearInterval(chrono);
 }
-
-
-
 
 //====================================================================================
 // rejouer================================================================
 //====================================================================================
 
-const replayButton = document.querySelector('.replay-button')
+const replayButton = document.querySelector(".replay-button");
 
-replayButton.addEventListener("click", () => { 
+replayButton.addEventListener("click", () => {
   location.reload();
-  audioManager.playSound('click-button'); 
+  audioManager.playSound("click-button");
 
   // audioManager.playSound('doing'); //blague
-
-})
-
-
-
+});
 
 //====================================================================================
 // bodymovin animation================================================================
 //====================================================================================
-            
-lottie.loadAnimation({
-    container: document.getElementById("bodymovinTouch"), // the dom element that will contain the animation
-    renderer: "svg",
-    loop: true,
-    autoplay: true,
-     path: "../../bodymovin/doigt4.json", // the path to the animation json
-});
-            
-lottie.loadAnimation({
-    container: document.getElementById("bodymovinDesktop"), // the dom element that will contain the animation
-    renderer: "svg",
-    loop: true,
-    autoplay: true,
-    path: "../../bodymovin/souris.json", // the path to the animation json
-});
-            
 
-                        
+lottie.loadAnimation({
+  container: document.getElementById("bodymovinTouch"), // the dom element that will contain the animation
+  renderer: "svg",
+  loop: true,
+  autoplay: true,
+  path: "../../bodymovin/doigt4.json", // the path to the animation json
+});
 
+lottie.loadAnimation({
+  container: document.getElementById("bodymovinDesktop"), // the dom element that will contain the animation
+  renderer: "svg",
+  loop: true,
+  autoplay: true,
+  path: "../../bodymovin/souris.json", // the path to the animation json
+});
 
 // Jouer un son
 // audioManager.playSound('explosion');
@@ -836,15 +788,14 @@ lottie.loadAnimation({
 let isDragging = false;
 
 // Écouter l'événement de début de clic
-renderer.domElement.addEventListener('mousedown', function(event) {
+renderer.domElement.addEventListener("mousedown", function (event) {
   isDragging = true;
 });
 
 // Écouter l'événement de fin de clic
-renderer.domElement.addEventListener('mouseup', function(event) {
+renderer.domElement.addEventListener("mouseup", function (event) {
   if (isDragging) {
-    audioManager.playSound('woosh');
+    audioManager.playSound("woosh");
     isDragging = false;
   }
 });
-
