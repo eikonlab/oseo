@@ -782,7 +782,6 @@ lottie.loadAnimation({
   path: "../../bodymovin/souris.json", // the path to the animation json
 });
 
-// Jouer un son
 // audioManager.playSound('explosion');
 
 let isDragging = false;
