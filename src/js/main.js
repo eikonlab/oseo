@@ -267,14 +267,62 @@ audioManager.loadSounds([
 //=======================================================================//
 
 const Targets = [
-  { azimutal: -2.7464, polar: 2.2217, label: "Target 1", marge: 0.02 }, //insertion (au pôle > difficile, à changer dans le modèle 3D)
-  { azimutal: -3.1413, polar: 1.5867, label: "Target 2", marge: 0.02 }, //intégration
-  { azimutal: -2.2302, polar: 1.2897, label: "Target 3", marge: 0.02 }, //solidarité
-  { azimutal: -0.8084, polar: 2.1514, label: "Target 4", marge: 0.02 }, //dignité
-  { azimutal: 1.6436, polar: 3.1112, label: "Target 5", marge: 0.03 }, //formation
-  { azimutal: -2.2412, polar: 1.7698, label: "Target 6", marge: 0.02 }, //responsabilité
-  { azimutal: 1.9773, polar: 1.5296, label: "Target 7", marge: 0.02 }, //engagement
-  { azimutal: 2.1175, polar: 1.8736, label: "Target 8", marge: 0.02 }, //autonomie
+  {
+    azimutal: -2.7464,
+    polar: 2.2217,
+    label: "Target 1",
+    marge: 0.02,
+    descriptionClass: "description1",
+  }, //insertion (au pôle > difficile, à changer dans le modèle 3D)
+  {
+    azimutal: -3.1413,
+    polar: 1.5867,
+    label: "Target 2",
+    marge: 0.02,
+    descriptionClass: "description2",
+  }, //intégration
+  {
+    azimutal: -2.2302,
+    polar: 1.2897,
+    label: "Target 3",
+    marge: 0.02,
+    descriptionClass: "description3",
+  }, //solidarité
+  {
+    azimutal: -0.8084,
+    polar: 2.1514,
+    label: "Target 4",
+    marge: 0.02,
+    descriptionClass: "description4",
+  }, //dignité
+  {
+    azimutal: 1.6436,
+    polar: 3.1112,
+    label: "Target 5",
+    marge: 0.03,
+    descriptionClass: "description5",
+  }, //formation
+  {
+    azimutal: -2.2412,
+    polar: 1.7698,
+    label: "Target 6",
+    marge: 0.02,
+    descriptionClass: "description6",
+  }, //responsabilité
+  {
+    azimutal: 1.9773,
+    polar: 1.5296,
+    label: "Target 7",
+    marge: 0.02,
+    descriptionClass: "description7",
+  }, //engagement
+  {
+    azimutal: 2.1175,
+    polar: 1.8736,
+    label: "Target 8",
+    marge: 0.02,
+    descriptionClass: "description8",
+  }, //autonomie
 ];
 //ADD all targets
 
@@ -798,4 +846,17 @@ renderer.domElement.addEventListener("mouseup", function (event) {
     audioManager.playSound("woosh");
     isDragging = false;
   }
+});
+
+// fonction click pour activer la valeur
+document.querySelectorAll(".description").forEach((description) => {
+  description.addEventListener("click", () => {
+    const target = Targets.find((target) =>
+      description.classList.contains(target.descriptionClass)
+    );
+    if (target) {
+      setCameraAngles(target.azimutal, target.polar);
+      activateTarget(target);
+    }
+  });
 });
