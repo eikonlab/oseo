@@ -714,12 +714,12 @@ function checkCameraMovement() {
 
     tutorialContainer.classList.remove("is-active");
     tutorialContainer.classList.add("is-gone");
-
     // Écoute les clics sur le document pendant 7 secondes
+
     let timeout = setTimeout(() => {
       tutorialContainer.classList.remove("is-gone");
       tutorialContainer.classList.add("is-active");
-    }, 14000);
+    }, 8000);
 
     // Si un clic est détecté pendant cette période, annule le timeout
     document.addEventListener("click", function onClick() {
@@ -855,7 +855,22 @@ document.querySelectorAll(".description").forEach((description) => {
     );
     if (target) {
       setCameraAngles(target.azimutal, target.polar);
-      activateTarget(target);
     }
   });
 });
+
+const descriptions = document.querySelectorAll(".description-h2");
+
+function descriptionUnblur() {
+  descriptions.forEach((description) => {
+    description.classList.toggle("description-unblur");
+  });
+}
+
+function startUnblurInterval() {
+  setTimeout(() => {
+    setInterval(descriptionUnblur, 2000);
+  }, 120000);
+}
+
+startUnblurInterval();

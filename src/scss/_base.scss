@@ -17,7 +17,6 @@
   --nav-padding: 20px;
   --blue: #99d5ff;
   --blue-transparent: #99d5ffac;
-
 }
 
 /* ====================================
@@ -68,7 +67,6 @@ h6 {
 // base rules
 // ==================================== */
 
-
 .description-container,
 .word-found-animation {
   -moz-user-select: none; /* Firefox */
@@ -85,7 +83,6 @@ body {
   &.resizing {
     opacity: 0;
     transition: opacity 0.3s var(--off-transition);
-
   }
 }
 
@@ -95,7 +92,7 @@ body {
   margin-top: 3px;
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
   .logo img {
     margin-top: 20px;
     width: 25%;
@@ -103,19 +100,19 @@ body {
   }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
   .logo img {
     width: 15%;
   }
 }
 
-@media (min-width:1440px) {
+@media (min-width: 1440px) {
   .logo img {
     width: 10%;
   }
 }
 
-@media (min-width:2000px) {
+@media (min-width: 2000px) {
   .logo img {
     width: 6%;
   }
